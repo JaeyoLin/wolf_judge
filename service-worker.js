@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/wolf_judge/precache-manifest.29b8a89e27829dc2830a4b70a2234b4e.js"
+  "/wolf_judge/precache-manifest.a4faf1009c8f3804d1b2349902fc67a3.js"
 );
 
 self.addEventListener('message', (event) => {
