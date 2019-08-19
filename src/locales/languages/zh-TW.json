@@ -4,10 +4,17 @@
   "resetting": "重新設定",
   "player_number": "遊戲人數",
   "wolf_number": "狼人數量",
+  "wolf": "狼人",
   "predictor": "預言家",
   "witch": "女巫",
   "hunter": "獵人",
+  "villager": "村民",
   "yes": "有",
   "no": "無",
-  "start": "開始"
+  "start": "開始",
+  "sit_number": "{{index}} 號玩家",
+  "check_role": "請點選, 並確認身份.",
+  "is_checked": "該玩家已確認身份.",
+  "confirm": "確認",
+  "your_role": "你的角色是..."
 }

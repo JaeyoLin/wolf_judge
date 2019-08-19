@@ -21,9 +21,28 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import CachedIcon from '@material-ui/icons/Cached';
 
+import {
+  WOLF,
+  PREDICTOR,
+  WITCH,
+  HUNTER,
+  VILLAGER,
+} from '../../constants/Role';
 import Setting from '../Setting/Setting';
+import CheckRole from '../CheckRole/CheckRole';
 
 const drawerWidth = 240;
+
+const createArray = (len, itm) => {
+  let arr1 = [itm],
+      arr2 = [];
+  while (len > 0) {
+      if (len & 1) arr2 = arr2.concat(arr1);
+      arr1 = arr1.concat(arr1);
+      len >>>= 1;
+  }
+  return arr2;
+}
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -55,6 +74,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Home = (props) => {
+  const [step, setStep] = useState(0);
+  const [list, setList] = useState([]);
+  const [playerNumber, setPlayerNumber] = useState(6);
+  const [wolfNumber, setWolfNumber] = useState(2);
+  const [isUsePredictor, setIsUsePredictor] = useState(false);
+  const [isUseWitch, setIsUseWitch] = useState(false);
+  const [isUseHunter, setIsUseHunter] = useState(false);
+
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const { t, i18n } = useTranslation();
   const classes = useStyles();
@@ -80,10 +107,107 @@ const Home = (props) => {
     setIsOpenDrawer(false);
   }
 
+  const getRaddomIndex = () => {
+    return Math.floor(Math.random() * playerNumber);
+  }
+
+  const handleStart = () => {
+    const list = createArray(playerNumber, null);
+
+    // 狼人位置
+    for (let i = 0 ; i < wolfNumber ; i += 1) {
+      let index = null;
+
+      beginning: while(true) {
+        index = getRaddomIndex();
+        if(list[index] !== null) {
+          continue beginning;
+        } else {
+          break;
+        }
+      }
+
+      list[index] = {
+        index: index + 1,
+        role: WOLF,
+      };
+    }
+
+    // 預言家位置
+    if (isUsePredictor) {
+      let index = null;
+
+      beginning: while(true) {
+        index = getRaddomIndex();
+        if(list[index] !== null) {
+          continue beginning;
+        } else {
+          break;
+        }
+      }
+
+      list[index] = {
+        index: index + 1,
+        role: PREDICTOR,
+      };
+    }
+
+    // 女巫位置
+    if (isUseWitch) {
+      let index = null;
+
+      beginning: while(true) {
+        index = getRaddomIndex();
+        if(list[index] !== null) {
+          continue beginning;
+        } else {
+          break;
+        }
+      }
+
+      list[index] = {
+        index: index + 1,
+        role: WITCH,
+      };
+    }
+
+    // 獵人位置
+    if (isUseHunter) {
+      let index = null;
+
+      beginning: while(true) {
+        index = getRaddomIndex();
+        if(list[index] !== null) {
+          continue beginning;
+        } else {
+          break;
+        }
+      }
+
+      list[index] = {
+        index: index + 1,
+        role: HUNTER,
+      };
+    }
+
+    // 村民位置
+    list.forEach((sit, index) => {
+      if (sit === null) {
+        list[index] = {
+          index: index + 1,
+          role: VILLAGER,
+        };
+      }
+    })
+
+    setList(list);
+    setStep(1);
+  }
+
   return (
     <>
       <Container maxWidth="sm" className={classes.container}>
-        <Typography component="div" style={{ backgroundColor: '#cfe8fc', height: '100vh' }}>
+        <Typography component="div" style={{ backgroundColor: '#cfe8fc', height: '100%' }}>
           <AppBar position="static">
             <Toolbar>
               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
@@ -129,8 +253,31 @@ const Home = (props) => {
               </ListItem>
             </List>
           </Drawer>
-        
-          <Setting />
+            
+          {
+            (step === 0) && (
+              <Setting
+                playerNumber={playerNumber}
+                setPlayerNumber={setPlayerNumber}
+                wolfNumber={wolfNumber}
+                setWolfNumber={setWolfNumber}
+                isUsePredictor={isUsePredictor}
+                setIsUsePredictor={setIsUsePredictor}
+                isUseWitch={isUseWitch}
+                setIsUseWitch={setIsUseWitch}
+                isUseHunter={isUseHunter}
+                setIsUseHunter={setIsUseHunter}
+                handleStart={handleStart}
+              />
+            )
+          }
+          {
+            (step === 1) && (
+              <CheckRole
+                list={list}
+              />
+            )
+          }
         </Typography>
       </Container>
     </>

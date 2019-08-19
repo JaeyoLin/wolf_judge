@@ -4,10 +4,17 @@
   "resetting": "Re Setting",
   "player_number": "Player Number",
   "wolf_number": "Wolf Number",
+  "wolf": "Wolf",
   "predictor": "Predictor",
   "witch": "Witch",
   "hunter": "Hunter",
+  "villager": "Villager",
   "yes": "Yes",
   "no": "No",
-  "start": "Start"
+  "start": "Start",
+  "sit_number": "Player No. {{index}}",
+  "check_role": "Click and check the role.",
+  "is_checked": "The player is checked.",
+  "confirm": "Confirm",
+  "your_role": "Your role is..."
 }
