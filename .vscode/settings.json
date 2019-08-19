@@ -1,0 +1,15 @@
+{
+  "editor.tokenColorCustomizations": {
+    "[Material Theme Darker High Contrast]": {
+      "comments": "#229977",
+    },
+  },
+  // "editor.fontFamily": "'Fira Code', 'Source Code Pro', Consolas, 'Microsoft JhengHei', 'Courier New', monospace",
+  "editor.lineHeight": 24,
+  "editor.fontLigatures": true,
+  // "explorer.decorations.badges": false
+  "workbench.sideBar.location": "right",
+  "colorize.languages": [
+    "javascript",
+  ],
+}
