@@ -1,15 +1,20 @@
 {
   "files": {
     "main.css": "/wolf_judge/static/css/main.2cce8147.chunk.css",
-    "main.js": "/wolf_judge/static/js/main.ee1ad94f.chunk.js",
-    "main.js.map": "/wolf_judge/static/js/main.ee1ad94f.chunk.js.map",
+    "main.js": "/wolf_judge/static/js/main.8b3ba215.chunk.js",
+    "main.js.map": "/wolf_judge/static/js/main.8b3ba215.chunk.js.map",
     "runtime~main.js": "/wolf_judge/static/js/runtime~main.c863cc3a.js",
     "runtime~main.js.map": "/wolf_judge/static/js/runtime~main.c863cc3a.js.map",
-    "static/js/2.fe3bfde8.chunk.js": "/wolf_judge/static/js/2.fe3bfde8.chunk.js",
-    "static/js/2.fe3bfde8.chunk.js.map": "/wolf_judge/static/js/2.fe3bfde8.chunk.js.map",
+    "static/js/2.23840b80.chunk.js": "/wolf_judge/static/js/2.23840b80.chunk.js",
+    "static/js/2.23840b80.chunk.js.map": "/wolf_judge/static/js/2.23840b80.chunk.js.map",
     "index.html": "/wolf_judge/index.html",
-    "precache-manifest.a4faf1009c8f3804d1b2349902fc67a3.js": "/wolf_judge/precache-manifest.a4faf1009c8f3804d1b2349902fc67a3.js",
+    "precache-manifest.fc9d034ef85d056a26736529f4adc5f0.js": "/wolf_judge/precache-manifest.fc9d034ef85d056a26736529f4adc5f0.js",
     "service-worker.js": "/wolf_judge/service-worker.js",
-    "static/css/main.2cce8147.chunk.css.map": "/wolf_judge/static/css/main.2cce8147.chunk.css.map"
+    "static/css/main.2cce8147.chunk.css.map": "/wolf_judge/static/css/main.2cce8147.chunk.css.map",
+    "static/media/hunter.jpg": "/wolf_judge/static/media/hunter.5cf4e8f1.jpg",
+    "static/media/predictor.jpg": "/wolf_judge/static/media/predictor.473d5f28.jpg",
+    "static/media/villager.jpg": "/wolf_judge/static/media/villager.fa735092.jpg",
+    "static/media/witch.jpg": "/wolf_judge/static/media/witch.4dc6d5d2.jpg",
+    "static/media/wolf.jpg": "/wolf_judge/static/media/wolf.9caa04d0.jpg"
   }
 }
