@@ -1,5 +1,6 @@
 {
   "title": "Wolf Judge",
+  "gaming": "法官主持中...",
   "restart": "Re Start",
   "resetting": "Re Setting",
   "player_number": "Player Number",
@@ -18,5 +19,15 @@
   "is_checked": "The player is checked.",
   "confirm": "Confirm",
   "your_role": "Your role is...",
-  "dead_person": "Player No. {{index}} is dead."
+  "dead_person": "Player No. {{index}} is dead.",
+  "is_use_save": "此回合已使用解藥, 不能使用毒藥",
+  "wolf_kill": "狼人請殺人",
+  "witch_save": "你要使用解藥嗎？",
+  "witch_poison": "你要使用毒藥嗎？",
+  "predictor_select": "你要查驗的對象是？",
+  "role_result": "這位玩家的身份是",
+  "is_wolf": "狼人",
+  "not_wolf": "好人",
+  "yesterday_dead": "昨天死掉的人是",
+  "christmas_eve": "平安夜"
 }

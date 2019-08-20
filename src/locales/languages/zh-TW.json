@@ -1,5 +1,6 @@
 {
   "title": "狼人殺法官",
+  "gaming": "法官主持中...",
   "restart": "重新開始",
   "resetting": "重新設定",
   "player_number": "遊戲人數",
@@ -9,8 +10,8 @@
   "witch": "女巫",
   "hunter": "獵人",
   "villager": "村民",
-  "yes": "有",
-  "no": "無",
+  "yes": "是",
+  "no": "否",
   "finished": "完成",
   "start": "開始遊戲",
   "sit_number": "{{index}} 號玩家",
@@ -18,5 +19,15 @@
   "is_checked": "該玩家已確認身份.",
   "confirm": "確認",
   "your_role": "你的角色是...",
-  "dead_person": "{{index}} 號玩家被殺死."
+  "dead_person": "{{index}} 號玩家被殺死.",
+  "is_use_save": "此回合已使用解藥, 不能使用毒藥",
+  "wolf_kill": "狼人請殺人",
+  "witch_save": "你要使用解藥嗎？",
+  "witch_poison": "你要使用毒藥嗎？",
+  "predictor_select": "你要查驗的對象是？",
+  "role_result": "這位玩家的身份是",
+  "is_wolf": "狼人",
+  "not_wolf": "好人",
+  "yesterday_dead": "昨天死掉的人是",
+  "christmas_eve": "平安夜"
 }

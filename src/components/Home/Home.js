@@ -49,6 +49,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingLeft: '0px',
     paddingRight: '0px',
+    height: '100vh',
   },
   toolbar: theme.mixins.toolbar,
   drawer: {
@@ -210,9 +211,9 @@ const Home = (props) => {
   }
 
   return (
-    <>
+    <div style={{ height: '100vh' }}>
       <Container maxWidth="sm" className={classes.container}>
-        <Typography component="div" style={{ backgroundColor: '#cfe8fc', height: '100%' }}>
+        <Typography component="div" >
           <AppBar position="static">
             <Toolbar>
               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
@@ -293,7 +294,7 @@ const Home = (props) => {
           }
         </Typography>
       </Container>
-    </>
+    </div>
   );
 }
 

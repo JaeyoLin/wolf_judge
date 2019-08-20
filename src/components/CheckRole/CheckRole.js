@@ -96,7 +96,7 @@ const RoleCard = (props) => {
         <DialogTitle id="alert-dialog-title">{t('your_role')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <img src={src} width="100%" />
+            <img src={src} width="100vh" />
             <div className={classes.role}>
               { t(sit.role.key) }
             </div>
