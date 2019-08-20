@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 // import FormLabel from '@material-ui/core/FormLabel';
 import InputLabel from '@material-ui/core/InputLabel';
 // import FormHelperText from '@material-ui/core/FormHelperText';
@@ -40,7 +42,7 @@ const Setting = (props) => {
       </div>
       <div>
         <TextField
-          label={t('player_number')}
+          label={t('wolf_number')}
           // className={classes.textField}
           value={wolfNumber}
           onChange={(e) => {setWolfNumber(e.target.value)}}
