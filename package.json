@@ -36,6 +36,7 @@
     "@material-ui/icons": "^4.2.1",
     "gh-pages": "^2.1.1",
     "i18next": "^17.0.11",
-    "react-i18next": "^10.12.2"
+    "react-i18next": "^10.12.2",
+    "react-sound": "^1.2.0"
   }
 }

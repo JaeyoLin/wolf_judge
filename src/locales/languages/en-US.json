@@ -16,5 +16,6 @@
   "check_role": "Click and check the role.",
   "is_checked": "The player is checked.",
   "confirm": "Confirm",
-  "your_role": "Your role is..."
+  "your_role": "Your role is...",
+  "dead_person": "Player No. {{index}} is dead."
 }

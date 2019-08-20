@@ -16,5 +16,6 @@
   "check_role": "請點選, 並確認身份.",
   "is_checked": "該玩家已確認身份.",
   "confirm": "確認",
-  "your_role": "你的角色是..."
+  "your_role": "你的角色是...",
+  "dead_person": "{{index}} 號玩家被殺死."
 }

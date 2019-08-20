@@ -30,6 +30,7 @@ import {
 } from '../../constants/Role';
 import Setting from '../Setting/Setting';
 import CheckRole from '../CheckRole/CheckRole';
+import Game from '../Game/Game';
 
 const drawerWidth = 240;
 
@@ -204,6 +205,10 @@ const Home = (props) => {
     setStep(1);
   }
 
+  const handleStartGame = () => {
+    setStep(2);
+  }
+
   return (
     <>
       <Container maxWidth="sm" className={classes.container}>
@@ -274,6 +279,14 @@ const Home = (props) => {
           {
             (step === 1) && (
               <CheckRole
+                list={list}
+                handleStartGame={handleStartGame}
+              />
+            )
+          }
+          {
+            (step === 2) && (
+              <Game
                 list={list}
               />
             )

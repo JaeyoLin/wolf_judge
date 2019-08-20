@@ -12,11 +12,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
-import wolf from '../../static/wolf.jpg';
-import predictor from '../../static/predictor.jpg';
-import witch from '../../static/witch.jpg';
-import hunter from '../../static/hunter.jpg';
-import villager from '../../static/villager.jpg';
+import wolf from '../../static/images/wolf.jpg';
+import predictor from '../../static/images/predictor.jpg';
+import witch from '../../static/images/witch.jpg';
+import hunter from '../../static/images/hunter.jpg';
+import villager from '../../static/images/villager.jpg';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -114,7 +114,7 @@ const RoleCard = (props) => {
 
 const CheckRole = (props) => {
   const { t } = useTranslation();
-  const { list } = props;
+  const { list, handleStartGame } = props;
   const classes = useStyles();
 
   return (
@@ -130,7 +130,7 @@ const CheckRole = (props) => {
           )
         })
       }
-      
+      <Button onClick={handleStartGame} variant="contained" color="secondary">{t('start')}</Button>
     </>
   );
 };
