@@ -80,7 +80,7 @@ const Home = (props) => {
   const [playerNumber, setPlayerNumber] = useState(6);
   const [wolfNumber, setWolfNumber] = useState(2);
   const [isUsePredictor, setIsUsePredictor] = useState(false);
-  const [isUseWitch, setIsUseWitch] = useState(false);
+  const [isUseWitch, setIsUseWitch] = useState(true);
   const [isUseHunter, setIsUseHunter] = useState(false);
 
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);

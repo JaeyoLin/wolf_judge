@@ -130,7 +130,7 @@ const CheckRole = (props) => {
           )
         })
       }
-      <Button onClick={handleStartGame} variant="contained" color="secondary">{t('start')}</Button>
+      <Button style={{ marginBottom: '20px' }} onClick={handleStartGame} variant="contained" color="secondary">{t('start')}</Button>
     </>
   );
 };
