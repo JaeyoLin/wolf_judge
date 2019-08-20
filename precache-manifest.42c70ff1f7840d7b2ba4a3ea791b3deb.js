@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "403713b1b7903796d65fa60b18e3421b",
+    "revision": "719a8737ecee671605ee1026aaa79551",
     "url": "/wolf_judge/index.html"
   },
   {
-    "revision": "a06332d8012d6b0a3ff8",
-    "url": "/wolf_judge/static/css/main.94ad8322.chunk.css"
+    "revision": "970262ef55288f174656",
+    "url": "/wolf_judge/static/css/main.c481ef37.chunk.css"
   },
   {
     "revision": "d934d8c13d38e4b6260e",
     "url": "/wolf_judge/static/js/2.7325fa6e.chunk.js"
   },
   {
-    "revision": "a06332d8012d6b0a3ff8",
-    "url": "/wolf_judge/static/js/main.62d03568.chunk.js"
+    "revision": "970262ef55288f174656",
+    "url": "/wolf_judge/static/js/main.5715b2ff.chunk.js"
   },
   {
     "revision": "d718bb2690348fd71462",
