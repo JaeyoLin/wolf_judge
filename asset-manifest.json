@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/wolf_judge/static/css/main.c481ef37.chunk.css",
-    "main.js": "/wolf_judge/static/js/main.ccbbef3a.chunk.js",
-    "main.js.map": "/wolf_judge/static/js/main.ccbbef3a.chunk.js.map",
+    "main.js": "/wolf_judge/static/js/main.f94fcc12.chunk.js",
+    "main.js.map": "/wolf_judge/static/js/main.f94fcc12.chunk.js.map",
     "runtime~main.js": "/wolf_judge/static/js/runtime~main.c863cc3a.js",
     "runtime~main.js.map": "/wolf_judge/static/js/runtime~main.c863cc3a.js.map",
     "static/js/2.7325fa6e.chunk.js": "/wolf_judge/static/js/2.7325fa6e.chunk.js",
     "static/js/2.7325fa6e.chunk.js.map": "/wolf_judge/static/js/2.7325fa6e.chunk.js.map",
     "index.html": "/wolf_judge/index.html",
-    "precache-manifest.55bb095ad9561b7f6544e961add93766.js": "/wolf_judge/precache-manifest.55bb095ad9561b7f6544e961add93766.js",
+    "precache-manifest.ecb586d11ff92d506e0d06688bbeb0a7.js": "/wolf_judge/precache-manifest.ecb586d11ff92d506e0d06688bbeb0a7.js",
     "service-worker.js": "/wolf_judge/service-worker.js",
     "static/css/main.c481ef37.chunk.css.map": "/wolf_judge/static/css/main.c481ef37.chunk.css.map",
     "static/media/hunter.jpg": "/wolf_judge/static/media/hunter.5cf4e8f1.jpg",
