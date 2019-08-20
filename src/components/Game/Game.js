@@ -79,7 +79,17 @@ const useStyles = makeStyles({
 
 const Game = (props) => {
   const classes = useStyles();
-  const { list } = props;
+  const {
+    list,
+    isUsePredictor,
+    isUseWitch,
+    isUseHunter,
+  } = props;
+
+  console.log('isUsePredictor', isUsePredictor);
+  console.log('isUseWitch', isUseWitch);
+  console.log('isUseHunter', isUseHunter);
+
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [isOpenWolfKill, setIsOpenWolfKill] = useState(false);
@@ -112,7 +122,22 @@ const Game = (props) => {
         setIsOpenWolfKill(true);
         break;
       case 5:
-        setStep(6);
+        // 是否有使用女巫
+        if (isUseWitch) {
+          setStep(6);
+        } else {
+          // 是否使用預言家
+          if (isUsePredictor) {
+            setStep(12);
+          } else {
+            if (isUseHunter) {
+              // 是否使用獵人
+              setStep(16);
+            } else {
+              setStep(18);
+            }
+          }
+        }
         break;
       case 6:
         setStep(7);
@@ -130,7 +155,18 @@ const Game = (props) => {
       case 10:
         break;
       case 11:
-        setStep(12);
+        // 是否使用預言家
+        if (isUsePredictor) {
+          setStep(12);
+        } else {
+          if (isUseHunter) {
+            // 是否使用獵人
+            setStep(16);
+          } else {
+            setStep(18);
+          }
+        }
+        // setStep(12);
         break;
       case 12:
         setStep(13);
@@ -142,10 +178,15 @@ const Game = (props) => {
         // setStep(15);
         break;
       case 15:
-        setStep(16);
+        if (isUseHunter) {
+          // 是否使用獵人
+          setStep(16);
+        } else {
+          setStep(18);
+        }
         break;
       case 16:
-        setStep(17);
+        setStep(17)
         break;
       case 17:
         setStep(18);

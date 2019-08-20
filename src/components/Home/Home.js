@@ -289,6 +289,9 @@ const Home = (props) => {
             (step === 2) && (
               <Game
                 list={list}
+                isUsePredictor={isUsePredictor}
+                isUseWitch={isUseWitch}
+                isUseHunter={isUseHunter}
               />
             )
           }
