@@ -86,10 +86,6 @@ const Game = (props) => {
     isUseHunter,
   } = props;
 
-  console.log('isUsePredictor', isUsePredictor);
-  console.log('isUseWitch', isUseWitch);
-  console.log('isUseHunter', isUseHunter);
-
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [isOpenWolfKill, setIsOpenWolfKill] = useState(false);
