@@ -40,5 +40,6 @@
   "poison_used": "你已使用毒藥",
   "game_over": "遊戲結束",
   "good_win": "正義聯盟獲勝",
-  "bad_win": "邪惡陣營獲勝"
+  "bad_win": "邪惡陣營獲勝",
+  "huner_shoot": "你要射殺的對象是？"
 }

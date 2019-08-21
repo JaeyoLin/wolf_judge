@@ -25,7 +25,7 @@ import {
   WOLF,
   PREDICTOR,
   WITCH,
-  // HUNTER,
+  HUNTER,
   // VILLAGER,
 } from '../../constants/Role';
 
@@ -138,6 +138,9 @@ const Game = (props) => {
   const [dead, setDead] = useState([]); // 死亡的人
   const [isOpenGameResult, setIsOpenGameResult] = useState(false); // 是否開啟遊戲結束畫面
   const [gameResultMessage, setGameResultMessage] = useState(''); // 遊戲結束訊息
+  const [isUseHunterSkill, setIsUseHunterSkill] = useState(false); // 獵人是否已使用技能
+  const [hunterSelect, setHunterSelect] = useState(null); // 獵人選擇
+  const [isOpenHunter, setIsOpenHunter] = useState(false);
 
   const handleSongFinishedPlaying = useCallback(() => {
     // setStep(step + 1);
@@ -454,9 +457,14 @@ const Game = (props) => {
       setIsOpenGameResult(true);
       setGameResultMessage(result.message);
     } else {
-      // 清空今晚死掉的人
-      setDeadNumber(null);
-      setWitchDeadNumber(null);
+      // 檢查獵人是否死亡
+      const isHunter = checkHunter(tmpDead);
+
+      if (isHunter) {
+        setIsOpenHunter(true);
+      } else {
+        initSelect(false);
+      }
     }
   }
 
@@ -486,6 +494,11 @@ const Game = (props) => {
       case PREDICTOR.key:
         selectValue = predictorSelect;
         selectFunc = setPredictorSelect;
+        break;
+      // 獵人
+      case HUNTER.key:
+        selectValue = hunterSelect;
+        selectFunc = setHunterSelect;
         break;
       // 一般投票
       default:
@@ -568,22 +581,32 @@ const Game = (props) => {
       setIsOpenGameResult(true);
       setGameResultMessage(result.message);
     } else {
-      // 清空全部選擇
-      setDeadNumber(null); // 狼人
-      setWitchDeadNumber(null); // 女巫毒殺
-      setPredictorSelect(null); // 預言家選擇
-      setSelectVote(null); // 投票選擇
-      setIsUse(false);
+      // 檢查獵人是否死亡
+      const isHunter = checkHunter(tmpDead);
 
-      // 進入下一天
-      setDay(day + 1);
-
-      // 進入晚上
-      setDayType(DAY_TYPE.NIGHT);
-
-      // 進入 Step 1
-      setStep(1);
+      if (isHunter) {
+        setIsOpenHunter(true);
+      } else {
+        initSelect(true);
+      }
     }
+  }
+
+  /**
+   * checkHunter
+   * 檢查獵人是否死亡
+   * 
+   * @param {array} dead - 死掉的人
+   */
+  const checkHunter = (dead) => {
+    let isHunter = false;
+
+    // 有使用獵人並未發動技能
+    if (isUseHunter && !isUseHunterSkill) {
+      isHunter = dead.some(tmp => tmp.role.key === HUNTER.key);
+    }
+
+    return isHunter;
   }
 
   /**
@@ -593,9 +616,6 @@ const Game = (props) => {
    * @param {array} - 死亡的人
    */
   const checkGameFinished = (dead) => {
-    // let isFinished = false;
-    // let message = '';
-    console.log('dead', dead);
     // 判斷好人是否獲勝
     let deadWolf = 0;
     dead.forEach((dead) => {
@@ -603,7 +623,6 @@ const Game = (props) => {
         deadWolf += 1;
       }
     });
-    console.log('deadWolf', deadWolf);
 
     if (deadWolf === wolfNumber) {
       return {
@@ -620,8 +639,6 @@ const Game = (props) => {
       }
     });
 
-    console.log('deadPerson', deadPerson);
-
     if (deadPerson >= wolfNumber) {
       return {
         isFinished: true,
@@ -632,6 +649,60 @@ const Game = (props) => {
     return {
       isFinished: false,
       message: '',
+    }
+  }
+
+  /**
+   * handleShoot
+   * 獵人射殺
+   * 
+   * @param {bool} isShoot - 是否射殺
+   */
+  const handleShoot = (isShoot) => {
+    if (isShoot) {
+      const tmpDead = [
+        ...dead,
+        hunterSelect,
+      ];
+
+      setDead(tmpDead);
+      const result = checkGameFinished(tmpDead);
+
+      if (result.isFinished) {
+        setIsOpenGameResult(true);
+        setGameResultMessage(result.message);
+      } else {
+        console.log('TODO');
+      }
+    } else {
+      console.log('TODO');
+    }
+  }
+
+  /**
+   * initSelect
+   * 初始化選擇
+   * 
+   * @param {bool} isNextDay - 是否進入下一天
+   */
+  const initSelect = (isNextDay) => {
+    // 清空全部選擇
+    setDeadNumber(null); // 狼人
+    setWitchDeadNumber(null); // 女巫毒殺
+    setPredictorSelect(null); // 預言家選擇
+    setSelectVote(null); // 投票選擇
+    setIsUse(false);
+    setHunterSelect(null); // 獵人選擇
+
+    if (isNextDay) {
+      // 進入下一天
+      setDay(day + 1);
+
+      // 進入晚上
+      setDayType(DAY_TYPE.NIGHT);
+
+      // 進入 Step 1
+      setStep(1);
     }
   }
 
@@ -875,6 +946,30 @@ const Game = (props) => {
         </DialogActions>
       </Dialog>
       { /* Game Result End */ }
+
+      { /* Hunter Select Start */ }
+      <Dialog
+        fullWidth
+        open={isOpenHunter}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{t('huner_shoot')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          { generateSelectPicker(HUNTER.key) }
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { handleShoot(false); }} color="primary" variant="outlined">
+            { t('no') }
+          </Button>
+          <Button onClick={() => { handleShoot(true); }} color="primary" variant="contained" disabled={hunterSelect !== null}>
+            { t('yes') }
+          </Button>
+        </DialogActions>
+      </Dialog>
+      { /* Hunter Select End */ }
     </>
   );
 };
