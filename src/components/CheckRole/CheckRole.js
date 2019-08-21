@@ -77,7 +77,10 @@ const RoleCard = (props) => {
     <>
       <Paper className={classes.root} onClick={handleClick}>
         <Typography variant="h5" component="h3">
-          { t('sit_number', { index: sit.index }) }
+          { 
+            t('sit_number', { index: sit.index }) 
+            // sit.role.key
+          }
         </Typography>
         <Typography component="p">
           { (isWatch) ? (
@@ -97,10 +100,10 @@ const RoleCard = (props) => {
         <DialogTitle id="alert-dialog-title">{t('your_role')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <img src={src} width="100%" />
             <div className={classes.role}>
               { t(sit.role.key) }
             </div>
+            <img src={src} width="100%" />
           </DialogContentText>
         </DialogContent>
         <DialogActions>

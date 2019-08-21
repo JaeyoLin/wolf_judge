@@ -1,4 +1,5 @@
 import React, {
+  // useEffect,
   useState,
   useMemo,
   useCallback,
@@ -112,9 +113,11 @@ const Game = (props) => {
     isUsePredictor,
     isUseWitch,
     isUseHunter,
-    // playerNumber,
+    playerNumber,
     wolfNumber,
   } = props;
+
+  console.log('list', list);
 
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
@@ -140,7 +143,16 @@ const Game = (props) => {
   const [gameResultMessage, setGameResultMessage] = useState(''); // 遊戲結束訊息
   const [isUseHunterSkill, setIsUseHunterSkill] = useState(false); // 獵人是否已使用技能
   const [hunterSelect, setHunterSelect] = useState(null); // 獵人選擇
-  const [isOpenHunter, setIsOpenHunter] = useState(false);
+  const [isOpenHunter, setIsOpenHunter] = useState(false); // 是否開啟獵人視窗
+  const [isKillByWitch, setIsKillByWitch] = useState(false); // 獵人是否被毒殺
+  const [isOpenHunterShoot, setIsOpenHunterShoot] = useState(false); // 是否開啟獵人槍殺訊息
+
+  const [isPredictorDead, setIsPredictorDead] = useState(false); // 預言家是否死亡
+  const [isWitchDead, setIsWitchDead] = useState(false); // 女巫是否死亡
+  const [isHunterDead, setIsHunterDead] = useState(false); // 獵人是否死亡
+
+  console.log('isKillByWitch', isKillByWitch);
+  console.log('isUsePoison', isUsePoison);
 
   const handleSongFinishedPlaying = useCallback(() => {
     // setStep(step + 1);
@@ -180,16 +192,30 @@ const Game = (props) => {
         setStep(7);
         break;
       case 7:
-        setIsOpenWitchSave(true);
+        if (!isWitchDead) {
+          setIsOpenWitchSave(true);
+        }
         setStep(8);
         break;
       case 8:
+        if (isWitchDead) {
+          setTimeout(() => {
+            setStep(9)
+          }, 2000);
+        }
         break;
       case 9:
-        setIsOpenWitchPoison(true);
+        if (!isWitchDead) {
+          setIsOpenWitchPoison(true);
+        }
         setStep(10);
         break;
       case 10:
+        if (isWitchDead) {
+          setTimeout(() => {
+            setStep(11)
+          }, 2000);
+        }
         break;
       case 11:
         // 是否使用預言家
@@ -209,10 +235,21 @@ const Game = (props) => {
         setStep(13);
         break;
       case 13:
-        setIsOpenPredictor(true);
+        if (!isPredictorDead) {
+          setIsOpenPredictor(true);
+        } else {
+          setTimeout(() => {
+            setStep(14)
+          }, 2000);
+        }
         break;
       case 14:
         // setStep(15);
+        if (isPredictorDead) {
+          setTimeout(() => {
+            setStep(15)
+          }, 2000);
+        }
         break;
       case 15:
         if (isUseHunter) {
@@ -223,7 +260,13 @@ const Game = (props) => {
         }
         break;
       case 16:
-        setStep(17)
+        if (!isHunterDead) {
+          setIsOpenHunterShoot(true);
+        } else {
+          setTimeout(() => {
+            setStep(17)
+          }, 2000);
+        }
         break;
       case 17:
         setStep(18);
@@ -273,6 +316,9 @@ const Game = (props) => {
     if (!isPoison) {
       setWitchDeadNumber(null);
     }
+
+    setIsKillByWitch(isPoison);
+
     setIsOpenWitchPoison(false);
     setStep(11);
   }
@@ -416,7 +462,7 @@ const Game = (props) => {
    */
   const handleCloseResult = () => {
     // 設定成白天
-    setDayType(DAY_TYPE.DAY);
+    // setDayType(DAY_TYPE.DAY);
 
     // 關閉晚上結果
     setIsOpenResult(false);
@@ -555,40 +601,46 @@ const Game = (props) => {
    * @param {bool} isVote - 是否有投票, false: 放棄
    */
   const handleVote = (isVote) => {
+    setDayType(DAY_TYPE.DAY);
+
     // 關閉投票視窗
     setIsOpenVote(false);
 
-    const tmpDead = [
-      ...dead,
-      selectVote,
-    ]
     if (isVote) {
-      setDead(tmpDead);
-
-      setMessages([
-        ...messages,
-        `${t('n_day', { day })}${selectVote.index}`,
-      ]);
-    } else {
-      setMessages([
-        ...messages,
-        `${t('n_day', { day })}${t('give_up_vote')}`,
-      ]);
-    }
-
-    const result = checkGameFinished(tmpDead);
-    if (result.isFinished) {
-      setIsOpenGameResult(true);
-      setGameResultMessage(result.message);
-    } else {
-      // 檢查獵人是否死亡
-      const isHunter = checkHunter(tmpDead);
-
-      if (isHunter) {
-        setIsOpenHunter(true);
+      const tmpDead = [
+        ...dead,
+        selectVote,
+      ]
+      if (isVote) {
+        setDead(tmpDead);
+  
+        setMessages([
+          ...messages,
+          `${t('n_day', { day })}${selectVote.index}`,
+        ]);
       } else {
-        initSelect(true);
+        setMessages([
+          ...messages,
+          `${t('n_day', { day })}${t('give_up_vote')}`,
+        ]);
       }
+  
+      const result = checkGameFinished(tmpDead);
+      if (result.isFinished) {
+        setIsOpenGameResult(true);
+        setGameResultMessage(result.message);
+      } else {
+        // 檢查獵人是否死亡
+        const isHunter = checkHunter(tmpDead);
+  
+        if (isHunter) {
+          setIsOpenHunter(true);
+        } else {
+          initSelect(true);
+        }
+      }
+    } else {
+      initSelect(true);
     }
   }
 
@@ -602,10 +654,13 @@ const Game = (props) => {
     let isHunter = false;
 
     // 有使用獵人並未發動技能
-    if (isUseHunter && !isUseHunterSkill) {
+    // console.log('isUseHunter', isUseHunter);
+    // console.log('isUseHunterSkill', isUseHunterSkill);
+    // console.log('isKillByWitch', isKillByWitch);
+    if (isUseHunter && !isUseHunterSkill && !isKillByWitch) {
       isHunter = dead.some(tmp => tmp.role.key === HUNTER.key);
     }
-
+    // console.log('isHunter', isHunter);
     return isHunter;
   }
 
@@ -616,6 +671,27 @@ const Game = (props) => {
    * @param {array} - 死亡的人
    */
   const checkGameFinished = (dead) => {
+    if (isUsePredictor) {
+      if (dead.some(tmp => tmp.role.key === PREDICTOR.key)) {
+        setIsPredictorDead(true);
+      }
+    }
+
+    if (isUseWitch) {
+      if (dead.some(tmp => tmp.role.key === WITCH.key)) {
+        setIsWitchDead(true);
+      }
+    }
+
+    if (isUseHunter) {
+      if (dead.some(tmp => tmp.role.key === HUNTER.key)) {
+        setIsHunterDead(true);
+      }
+    }
+
+    console.log('dead', dead);
+    console.log('wolfNumber', wolfNumber);
+
     // 判斷好人是否獲勝
     let deadWolf = 0;
     dead.forEach((dead) => {
@@ -623,6 +699,7 @@ const Game = (props) => {
         deadWolf += 1;
       }
     });
+    console.log('deadWolf', deadWolf);
 
     if (deadWolf === wolfNumber) {
       return {
@@ -632,14 +709,18 @@ const Game = (props) => {
     }
 
     // 判斷壞人是否獲勝
-    let deadPerson = 0;
-    dead.forEach((dead) => {
-      if (dead.role.key !== WOLF.key) {
-        deadPerson += 1;
-      }
-    });
+    // let deadPerson = 0;
+    // // console.log('dead', dead);
+    // dead.forEach((dead) => {
+    //   if (dead.role.key !== WOLF.key) {
+    //     deadPerson += 1;
+    //   }
+    // });
 
-    if (deadPerson >= wolfNumber) {
+    // console.log('deadPerson', deadPerson);
+    console.log('playerNumber', playerNumber);
+
+    if ((playerNumber - dead.length) <= (wolfNumber - deadWolf) * 2) {
       return {
         isFinished: true,
         message: t('bad_win'),
@@ -659,6 +740,9 @@ const Game = (props) => {
    * @param {bool} isShoot - 是否射殺
    */
   const handleShoot = (isShoot) => {
+    setIsOpenHunter(false);
+    setIsUseHunterSkill(true);
+    console.log('isShoot', isShoot);
     if (isShoot) {
       const tmpDead = [
         ...dead,
@@ -666,16 +750,30 @@ const Game = (props) => {
       ];
 
       setDead(tmpDead);
+      setMessages([
+        ...messages,
+        t('hunter_shoot_player', { index: hunterSelect.index })
+      ]);
       const result = checkGameFinished(tmpDead);
 
       if (result.isFinished) {
         setIsOpenGameResult(true);
         setGameResultMessage(result.message);
       } else {
-        console.log('TODO');
+        // console.log('11', dayType);
+        if (dayType === DAY_TYPE.DAY) {
+          initSelect(true);
+        } else {
+          initSelect(false);
+        }
       }
     } else {
-      console.log('TODO');
+      // console.log('22', dayType);
+      if (dayType === DAY_TYPE.DAY) {
+        initSelect(true);
+      } else {
+        initSelect(false);
+      }
     }
   }
 
@@ -703,6 +801,8 @@ const Game = (props) => {
 
       // 進入 Step 1
       setStep(1);
+    } else {
+      setDayType(DAY_TYPE.DAY);
     }
   }
 
@@ -712,7 +812,18 @@ const Game = (props) => {
    * 
    */
   const handleGameOver = () => {
-    window.location.href = '/';
+    // window.location.href = '/';
+    window.location.reload();
+  }
+
+  /**
+   * handleCloseHunter
+   * 關閉獵人視窗
+   * 
+   */
+  const handleCloseHunter = () => {
+    setIsOpenHunterShoot(false);
+    setStep(17);
   }
 
   return (
@@ -964,12 +1075,39 @@ const Game = (props) => {
           <Button onClick={() => { handleShoot(false); }} color="primary" variant="outlined">
             { t('no') }
           </Button>
-          <Button onClick={() => { handleShoot(true); }} color="primary" variant="contained" disabled={hunterSelect !== null}>
+          <Button onClick={() => { handleShoot(true); }} color="primary" variant="contained" disabled={hunterSelect === null}>
             { t('yes') }
           </Button>
         </DialogActions>
       </Dialog>
       { /* Hunter Select End */ }
+
+      {/* Hunter Could Shoot Start */}
+      <Dialog
+        fullWidth
+        open={isOpenHunterShoot}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{t('could_shoot')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {
+              (isKillByWitch) ? (
+                t('cant_shoot')
+              ) : (
+                t('can_shoot')
+              )
+            }
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { handleCloseHunter(); }} color="primary" variant="contained">
+            { t('confirm') }
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Hunter Could Shoot End */}
     </>
   );
 };

@@ -103,7 +103,8 @@ const Home = (props) => {
   };
 
   const handleRestart = () => {
-    window.location.href = '/';
+    // window.location.href = '/';
+    window.location.reload();
     // setIsOpenDrawer(false);
   }
 
@@ -296,7 +297,7 @@ const Home = (props) => {
                 isUsePredictor={isUsePredictor}
                 isUseWitch={isUseWitch}
                 isUseHunter={isUseHunter}
-                // playerNumber={playerNumber}
+                playerNumber={playerNumber}
                 wolfNumber={wolfNumber}
               />
             )
