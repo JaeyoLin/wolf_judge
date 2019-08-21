@@ -112,6 +112,8 @@ const Game = (props) => {
     isUsePredictor,
     isUseWitch,
     isUseHunter,
+    // playerNumber,
+    wolfNumber,
   } = props;
 
   const { t } = useTranslation();
@@ -133,8 +135,9 @@ const Game = (props) => {
   const [messages, setMessages] = useState([]); // 遊戲訊息
   const [isOpenVote, setIsOpenVote] = useState(false); // 投票視窗
   const [selectVote, setSelectVote] = useState(null); // 選擇投票的人
-
   const [dead, setDead] = useState([]); // 死亡的人
+  const [isOpenGameResult, setIsOpenGameResult] = useState(false); // 是否開啟遊戲結束畫面
+  const [gameResultMessage, setGameResultMessage] = useState(''); // 遊戲結束訊息
 
   const handleSongFinishedPlaying = useCallback(() => {
     // setStep(step + 1);
@@ -438,16 +441,23 @@ const Game = (props) => {
     }
 
     // 更新已死亡的人
+    const tmpDead = [
+      ...dead,
+      ...tmpArray,
+    ];
     if (tmpArray.length > 0) {
-      setDead([
-        ...dead,
-        ...tmpArray,
-      ]);
+      setDead(tmpDead);
     }
 
-    // 清空今晚死掉的人
-    setDeadNumber(null);
-    setWitchDeadNumber(null);
+    const result = checkGameFinished(tmpDead);
+    if (result.isFinished) {
+      setIsOpenGameResult(true);
+      setGameResultMessage(result.message);
+    } else {
+      // 清空今晚死掉的人
+      setDeadNumber(null);
+      setWitchDeadNumber(null);
+    }
   }
 
   /**
@@ -535,11 +545,12 @@ const Game = (props) => {
     // 關閉投票視窗
     setIsOpenVote(false);
 
+    const tmpDead = [
+      ...dead,
+      selectVote,
+    ]
     if (isVote) {
-      setDead([
-        ...dead,
-        selectVote,
-      ]);
+      setDead(tmpDead);
 
       setMessages([
         ...messages,
@@ -552,21 +563,85 @@ const Game = (props) => {
       ]);
     }
 
-    // 清空全部選擇
-    setDeadNumber(null); // 狼人
-    setWitchDeadNumber(null); // 女巫毒殺
-    setPredictorSelect(null); // 預言家選擇
-    setSelectVote(null); // 投票選擇
-    setIsUse(false);
+    const result = checkGameFinished(tmpDead);
+    if (result.isFinished) {
+      setIsOpenGameResult(true);
+      setGameResultMessage(result.message);
+    } else {
+      // 清空全部選擇
+      setDeadNumber(null); // 狼人
+      setWitchDeadNumber(null); // 女巫毒殺
+      setPredictorSelect(null); // 預言家選擇
+      setSelectVote(null); // 投票選擇
+      setIsUse(false);
 
-    // 進入下一天
-    setDay(day + 1);
+      // 進入下一天
+      setDay(day + 1);
 
-    // 進入晚上
-    setDayType(DAY_TYPE.NIGHT);
+      // 進入晚上
+      setDayType(DAY_TYPE.NIGHT);
 
-    // 進入 Step 1
-    setStep(1);
+      // 進入 Step 1
+      setStep(1);
+    }
+  }
+
+  /**
+   * checkGameFinished
+   * 檢查遊戲是否結束
+   * 
+   * @param {array} - 死亡的人
+   */
+  const checkGameFinished = (dead) => {
+    // let isFinished = false;
+    // let message = '';
+    console.log('dead', dead);
+    // 判斷好人是否獲勝
+    let deadWolf = 0;
+    dead.forEach((dead) => {
+      if (dead.role.key === WOLF.key) {
+        deadWolf += 1;
+      }
+    });
+    console.log('deadWolf', deadWolf);
+
+    if (deadWolf === wolfNumber) {
+      return {
+        isFinished: true,
+        message: t('good_win'),
+      }
+    }
+
+    // 判斷壞人是否獲勝
+    let deadPerson = 0;
+    dead.forEach((dead) => {
+      if (dead.role.key !== WOLF.key) {
+        deadPerson += 1;
+      }
+    });
+
+    console.log('deadPerson', deadPerson);
+
+    if (deadPerson >= wolfNumber) {
+      return {
+        isFinished: true,
+        message: t('bad_win'),
+      }
+    }
+
+    return {
+      isFinished: false,
+      message: '',
+    }
+  }
+
+  /**
+   * handleGameOver
+   * 遊戲結束
+   * 
+   */
+  const handleGameOver = () => {
+    window.location.href = '/';
   }
 
   return (
@@ -779,6 +854,27 @@ const Game = (props) => {
         </DialogActions>
       </Dialog>
       { /* Vote End */ }
+
+      { /* Game Result Start */ }
+      <Dialog
+        fullWidth
+        open={isOpenGameResult}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{t('game_over')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            { gameResultMessage }
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { handleGameOver(); }} color="primary" variant="contained">
+            { t('confirm') }
+          </Button>
+        </DialogActions>
+      </Dialog>
+      { /* Game Result End */ }
     </>
   );
 };

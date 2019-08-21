@@ -296,6 +296,8 @@ const Home = (props) => {
                 isUsePredictor={isUsePredictor}
                 isUseWitch={isUseWitch}
                 isUseHunter={isUseHunter}
+                // playerNumber={playerNumber}
+                wolfNumber={wolfNumber}
               />
             )
           }

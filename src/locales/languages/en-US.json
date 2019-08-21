@@ -37,5 +37,8 @@
   "give_up": "放棄",
   "give_up_vote": "棄票",
   "save_used": "你已使用解藥",
-  "poison_used": "你已使用毒藥"
+  "poison_used": "你已使用毒藥",
+  "game_over": "遊戲結束",
+  "good_win": "正義聯盟獲勝",
+  "bad_win": "邪惡陣營獲勝"
 }
