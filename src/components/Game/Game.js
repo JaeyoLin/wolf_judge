@@ -892,7 +892,7 @@ const Game = (props) => {
           <DialogContentText id="alert-dialog-description">
             {
               (isUseSave) ? (
-                t('save_used')
+                <span className={classes.good}>{t('save_used')}</span>
               ) : (
                 <Grid container justify="center" alignItems="center">
                   { t('dead_person', { index: (deadNumber) ? deadNumber.index : null }) }
@@ -924,7 +924,7 @@ const Game = (props) => {
           <DialogContentText id="alert-dialog-description">
             { 
               (isUsePoison) ? (
-                t('poison_used')
+                <span className={classes.good}>{t('poison_used')}</span>
               ) : (
                 generateSelectPicker(WITCH.key)
               )
@@ -1047,7 +1047,9 @@ const Game = (props) => {
         <DialogTitle id="alert-dialog-title">{t('game_over')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            { gameResultMessage }
+            { 
+              <span className={classes.good}>{gameResultMessage}</span>
+            }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -1094,9 +1096,9 @@ const Game = (props) => {
           <DialogContentText id="alert-dialog-description">
             {
               (isKillByWitch) ? (
-                t('cant_shoot')
+                <span className={classes.bad}>{t('cant_shoot')}</span>
               ) : (
-                t('can_shoot')
+                <span className={classes.good}>{t('can_shoot')}</span>
               )
             }
           </DialogContentText>
