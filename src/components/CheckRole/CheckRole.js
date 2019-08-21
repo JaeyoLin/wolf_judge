@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, {
   useState,
 } from 'react';
@@ -115,7 +116,7 @@ const RoleCard = (props) => {
 const CheckRole = (props) => {
   const { t } = useTranslation();
   const { list, handleStartGame } = props;
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <> 

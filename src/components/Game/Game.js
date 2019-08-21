@@ -14,7 +14,10 @@ import Avatar from '@material-ui/core/Avatar';
 // import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { green, pink } from '@material-ui/core/colors';
+import {
+  // green,
+  pink,
+} from '@material-ui/core/colors';
 
 import { useTranslation } from "react-i18next";
 
@@ -22,8 +25,8 @@ import {
   WOLF,
   PREDICTOR,
   WITCH,
-  HUNTER,
-  VILLAGER,
+  // HUNTER,
+  // VILLAGER,
 } from '../../constants/Role';
 
 import step1 from '../../static/audio/step_1.mp3'; // 天黑請閉眼
@@ -75,11 +78,18 @@ const AudioSound = React.memo((props) => {
 const useStyles = makeStyles({
   avatar: {
     margin: 10,
+    color: '#fff',
+    backgroundColor: '#4DB6AC',
   },
   pinkAvatar: {
     margin: 10,
     color: '#fff',
     backgroundColor: pink[500],
+  },
+  dead: {
+    margin: 10,
+    color: '#fff',
+    backgroundColor: '#9E9E9E',
   },
   good: {
     fontSize: '30px',
@@ -112,6 +122,8 @@ const Game = (props) => {
   const [isOpenWitchSave, setIsOpenWitchSave] = useState(false); // 解藥詢問 視窗
   const [isOpenWitchPoison, setIsOpenWitchPoison] = useState(false); // 毒藥詢問 視窗
   const [isUse, setIsUse] = useState(false); // 女巫一晚只能使用一種藥
+  const [isUseSave, setIsUseSave] = useState(false); // 是否已使用解藥
+  const [isUsePoison, setIsUsePoison] = useState(false); // 是否已使用毒藥
   const [isOpenPredictor, setIsOpenPredictor] = useState(false); // 預言家選擇身份 視窗
   const [predictorSelect, setPredictorSelect] = useState(null); // 預言家選擇查驗的身份
   const [isOpenRole, setIsOpenRols] = useState(false); // 預言家查看身份 視窗
@@ -237,6 +249,7 @@ const Game = (props) => {
     if (isSave) {
       // 使用解藥
       setIsUse(true);
+      setIsUseSave(true);
       setDeadNumber(null);
     }
     setIsOpenWitchSave(false);
@@ -250,6 +263,7 @@ const Game = (props) => {
    * @param {bool} isPoison - true: 使用, false: 不使用
    */
   const handleWitchPoison = (isPoison) => {
+    setIsUsePoison(isPoison);
     if (!isPoison) {
       setWitchDeadNumber(null);
     }
@@ -362,9 +376,12 @@ const Game = (props) => {
       if (deadNumber !== null) {
         tmp.push(deadNumber.index);
       }
-      if (witchDeadNumber !== null && witchDeadNumber.index !== deadNumber.index) {
-        // returnMessage += `, ${witchDeadNumber.index}`;
-        tmp.push(witchDeadNumber.index);
+      if (witchDeadNumber !== null) {
+        if (deadNumber !== null && witchDeadNumber.index !== deadNumber.index) {
+          tmp.push(witchDeadNumber.index);
+        } else {
+          tmp.push(witchDeadNumber.index);
+        }
       }
 
       // 重新排序
@@ -480,11 +497,22 @@ const Game = (props) => {
                   };
                 }
 
+                // 判斷該玩家是否死亡
+                const idDead = dead.some(tmp => tmp.index === sit.index);
+
                 return (
                   <>
-                    <Avatar className={className} onClick={() => {selectFunc(sit)}}>
-                      { sit.index }
-                    </Avatar>
+                    {
+                      (idDead) ? (
+                        <Avatar className={classes.dead}>
+                          { sit.index }
+                        </Avatar>
+                      ) : (
+                        <Avatar className={className} onClick={() => {selectFunc(sit)}}>
+                          { sit.index }
+                        </Avatar>
+                      )
+                    }
                   </>
                 );
               })
@@ -495,6 +523,50 @@ const Game = (props) => {
     );
 
     return returnComp;
+  }
+
+  /**
+   * handleVote
+   * 投票結果
+   * 
+   * @param {bool} isVote - 是否有投票, false: 放棄
+   */
+  const handleVote = (isVote) => {
+    // 關閉投票視窗
+    setIsOpenVote(false);
+
+    if (isVote) {
+      setDead([
+        ...dead,
+        selectVote,
+      ]);
+
+      setMessages([
+        ...messages,
+        `${t('n_day', { day })}${selectVote.index}`,
+      ]);
+    } else {
+      setMessages([
+        ...messages,
+        `${t('n_day', { day })}${t('give_up_vote')}`,
+      ]);
+    }
+
+    // 清空全部選擇
+    setDeadNumber(null); // 狼人
+    setWitchDeadNumber(null); // 女巫毒殺
+    setPredictorSelect(null); // 預言家選擇
+    setSelectVote(null); // 投票選擇
+    setIsUse(false);
+
+    // 進入下一天
+    setDay(day + 1);
+
+    // 進入晚上
+    setDayType(DAY_TYPE.NIGHT);
+
+    // 進入 Step 1
+    setStep(1);
   }
 
   return (
@@ -561,16 +633,22 @@ const Game = (props) => {
         <DialogTitle id="alert-dialog-title">{t('witch_save')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <Grid container justify="center" alignItems="center">
-              { t('dead_person', { index: (deadNumber) ? deadNumber.index : null }) }
-            </Grid>
+            {
+              (isUseSave) ? (
+                t('save_used')
+              ) : (
+                <Grid container justify="center" alignItems="center">
+                  { t('dead_person', { index: (deadNumber) ? deadNumber.index : null }) }
+                </Grid>
+              )
+            }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => {handleWitchSave(false)}} color="primary" variant="outlined">
             { t('no') }
           </Button>
-          <Button onClick={() => {handleWitchSave(true)}} color="primary" variant="contained">
+          <Button onClick={() => {handleWitchSave(true)}} color="primary" variant="contained" disabled={isUseSave}>
             { t('yes') }
           </Button>
         </DialogActions>
@@ -587,14 +665,20 @@ const Game = (props) => {
         <DialogTitle id="alert-dialog-title">{t('witch_poison')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            { generateSelectPicker(WITCH.key) }
+            { 
+              (isUsePoison) ? (
+                t('poison_used')
+              ) : (
+                generateSelectPicker(WITCH.key)
+              )
+            }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => {handleWitchPoison(false)}} color="primary" variant="outlined">
             { t('no') }
           </Button>
-          <Button disabled={(isUse || witchDeadNumber === null)} onClick={() => {handleWitchPoison(true)}} color="primary" variant="contained">
+          <Button disabled={(isUse || witchDeadNumber === null || isUsePoison)} onClick={() => {handleWitchPoison(true)}} color="primary" variant="contained">
             { t('yes') }
           </Button>
         </DialogActions>
@@ -686,7 +770,10 @@ const Game = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => {console.log('TODO')}} color="primary" variant="contained">
+          <Button onClick={() => { handleVote(false); }} color="primary" variant="outlined">
+            { t('give_up') }
+          </Button>
+          <Button onClick={() => { handleVote(true); }} color="primary" variant="contained">
             { t('confirm') }
           </Button>
         </DialogActions>

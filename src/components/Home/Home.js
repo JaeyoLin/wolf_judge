@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-label */
 import React, {
   useState,
 } from 'react';
@@ -18,7 +19,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import AutorenewIcon from '@material-ui/icons/Autorenew';
+// import AutorenewIcon from '@material-ui/icons/Autorenew';
 import CachedIcon from '@material-ui/icons/Cached';
 
 import {
@@ -103,12 +104,12 @@ const Home = (props) => {
 
   const handleRestart = () => {
     window.location.href = '/';
-    setIsOpenDrawer(false);
+    // setIsOpenDrawer(false);
   }
 
-  const handleReSetting = () => {
-    setIsOpenDrawer(false);
-  }
+  // const handleReSetting = () => {
+  //   setIsOpenDrawer(false);
+  // }
 
   const getRaddomIndex = () => {
     return Math.floor(Math.random() * playerNumber);
