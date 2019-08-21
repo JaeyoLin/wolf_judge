@@ -18,6 +18,14 @@ import { green, pink } from '@material-ui/core/colors';
 
 import { useTranslation } from "react-i18next";
 
+import {
+  WOLF,
+  PREDICTOR,
+  WITCH,
+  HUNTER,
+  VILLAGER,
+} from '../../constants/Role';
+
 import step1 from '../../static/audio/step_1.mp3'; // 天黑請閉眼
 import step2 from '../../static/audio/step_2.mp3'; // 狼人現身請睜眼
 import step3 from '../../static/audio/step_3.mp3'; // 狼人確認彼此的身份
@@ -36,6 +44,16 @@ import step15 from '../../static/audio/step_15.mp3'; // 預言家請閉眼
 import step16 from '../../static/audio/step_16.mp3'; // 獵人請睜眼
 import step17 from '../../static/audio/step_17.mp3'; // 獵人請閉眼
 import step18 from '../../static/audio/step_18.mp3'; // 天亮請睜眼
+
+/**
+ * DAY_TYPE
+ * 白天, 晚上
+ * 
+ */
+const DAY_TYPE = {
+  DAY: 'DAY',
+  NIGHT: 'NIGHT',
+}
 
 const AudioSound = React.memo((props) => {
   const {
@@ -90,14 +108,19 @@ const Game = (props) => {
   const [step, setStep] = useState(1);
   const [isOpenWolfKill, setIsOpenWolfKill] = useState(false);
   const [deadNumber, setDeadNumber] = useState(null); // 狼人晚上殺人的
-  const [witchDeadNumber, setWitchDeadNumber] = useState(null); // 女巫毒的
-  const [isOpenWitchSave, setIsOpenWitchSave] = useState(false); // 解藥詢問
-  const [isOpenWitchPoison, setIsOpenWitchPoison] = useState(false); // 毒藥詢問
+  const [witchDeadNumber, setWitchDeadNumber] = useState(null); // 女巫毒的角色
+  const [isOpenWitchSave, setIsOpenWitchSave] = useState(false); // 解藥詢問 視窗
+  const [isOpenWitchPoison, setIsOpenWitchPoison] = useState(false); // 毒藥詢問 視窗
   const [isUse, setIsUse] = useState(false); // 女巫一晚只能使用一種藥
-  const [isOpenPredictor, setIsOpenPredictor] = useState(false); // 預言家選擇身份
-  const [predictorSelect, setPredictorSelect] = useState(null); // 預言家選擇
-  const [isOpenRole, setIsOpenRols] = useState(false); // 預言家查看身份
+  const [isOpenPredictor, setIsOpenPredictor] = useState(false); // 預言家選擇身份 視窗
+  const [predictorSelect, setPredictorSelect] = useState(null); // 預言家選擇查驗的身份
+  const [isOpenRole, setIsOpenRols] = useState(false); // 預言家查看身份 視窗
   const [isOpenResult, setIsOpenResult] = useState(false); // 晚上結果
+  const [day, setDay] = useState(1); // 第幾天
+  const [dayType, setDayType] = useState(DAY_TYPE.NIGHT); // 白天晚上
+  const [messages, setMessages] = useState([]); // 遊戲訊息
+  const [isOpenVote, setIsOpenVote] = useState(false); // 投票視窗
+  const [selectVote, setSelectVote] = useState(null); // 選擇投票的人
 
   const [dead, setDead] = useState([]); // 死亡的人
 
@@ -194,11 +217,22 @@ const Game = (props) => {
     }
   }, [step]);
 
+  /**
+   * handleCloseWolfKill
+   * 狼人殺人視窗
+   * 
+   */
   const handleCloseWolfKill = () => {
     setIsOpenWolfKill(false);
     setStep(5);
   }
 
+  /**
+   * handleWitchSave
+   * 女巫是否使用解藥
+   * 
+   * @param {bool} isSave - true: 使用, false: 不使用
+   */
   const handleWitchSave = (isSave) => {
     if (isSave) {
       // 使用解藥
@@ -209,6 +243,12 @@ const Game = (props) => {
     setStep(9);
   }
 
+  /**
+   * handleWitchPoison
+   * 關閉女巫是否使用毒藥
+   * 
+   * @param {bool} isPoison - true: 使用, false: 不使用
+   */
   const handleWitchPoison = (isPoison) => {
     if (!isPoison) {
       setWitchDeadNumber(null);
@@ -217,17 +257,32 @@ const Game = (props) => {
     setStep(11);
   }
 
+  /**
+   * handlePredictor
+   * 關閉預言家詢問視窗
+   * 
+   */
   const handlePredictor = () => {
     setIsOpenPredictor(false);
     setIsOpenRols(true);
     setStep(14);
   }
 
+  /**
+   * handleCloseCheckRole
+   * 關閉預言家查驗身份結果
+   * 
+   */
   const handleCloseCheckRole = () => {
     setIsOpenRols(false);
     setStep(15);
   }
 
+  /**
+   * audioSrc
+   * 取得音效檔
+   * 
+   */
   const audioSrc = useMemo(() => {
     let returnSrc = null;
 
@@ -293,10 +348,179 @@ const Game = (props) => {
     return returnSrc;
   }, [step]);
 
+  /**
+   * generateResultMessage
+   * 組出當晚死亡訊息
+   * 
+   */
+  const generateResultMessage = () => {
+    let returnMessage = null;
+    if (deadNumber === null && witchDeadNumber === null) {
+      returnMessage = t('christmas_eve')
+    } else {
+      let tmp = [];
+      if (deadNumber !== null) {
+        tmp.push(deadNumber.index);
+      }
+      if (witchDeadNumber !== null && witchDeadNumber.index !== deadNumber.index) {
+        // returnMessage += `, ${witchDeadNumber.index}`;
+        tmp.push(witchDeadNumber.index);
+      }
+
+      // 重新排序
+      tmp.sort((a, b) => {
+        return a - b;
+      });
+      
+      // 每晚最多只會有兩位玩家死掉
+      tmp.forEach((number, index) => {
+        returnMessage += number;
+        if (tmp.length === 2 && index !== tmp.length - 1) {
+          returnMessage += ', ';
+        }
+      });
+    }
+
+    return returnMessage;
+  }
+
+  /**
+   * handleCloseResult
+   * 關閉晚上結果
+   * 判斷是否結束遊戲
+   * 判斷是否有獵人
+   * 
+   */
+  const handleCloseResult = () => {
+    // 設定成白天
+    setDayType(DAY_TYPE.DAY);
+
+    // 關閉晚上結果
+    setIsOpenResult(false);
+    
+    // 更新遊戲訊息
+    setMessages([
+      ...messages,
+      `${t('n_night', { day })}${generateResultMessage()}`
+    ]);
+
+    const tmpArray = [];
+
+    // 狼人殺死的人
+    if (deadNumber !== null) {
+      tmpArray.push(deadNumber);
+      setDead([
+        ...dead,
+        deadNumber,
+      ]);
+    }
+
+    // 女巫毒的人
+    if (isUseWitch && witchDeadNumber !== null) {
+      tmpArray.push(witchDeadNumber);
+    }
+
+    // 更新已死亡的人
+    if (tmpArray.length > 0) {
+      setDead([
+        ...dead,
+        ...tmpArray,
+      ]);
+    }
+
+    // 清空今晚死掉的人
+    setDeadNumber(null);
+    setWitchDeadNumber(null);
+  }
+
+  /**
+   * generateSelectPicker
+   * 組出選擇頭像 component
+   * 
+   * @param {string} role - 角色
+   */
+  const generateSelectPicker = (role) => {
+    let returnComp = null;
+    let selectValue = null;
+    let selectFunc = null;
+
+    switch(role) {
+      // 狼人
+      case WOLF.key:
+        selectValue = deadNumber;
+        selectFunc = setDeadNumber;
+        break;
+      // 女巫
+      case WITCH.key:
+        selectValue = witchDeadNumber;
+        selectFunc = setWitchDeadNumber;
+        break;
+      // 預言家
+      case PREDICTOR.key:
+        selectValue = predictorSelect;
+        selectFunc = setPredictorSelect;
+        break;
+      // 一般投票
+      default:
+        selectValue = selectVote;
+        selectFunc = setSelectVote;
+    }
+
+    returnComp = (
+      <Grid container justify="center" alignItems="center">
+        {
+          <Grid container justify="center" alignItems="center">
+            {
+              list.map(sit => {
+                let className = classes.avatar;
+
+                if (selectValue) {
+                  if (selectValue.index === sit.index) {
+                    className = classes.pinkAvatar;
+                  };
+                }
+
+                return (
+                  <>
+                    <Avatar className={className} onClick={() => {selectFunc(sit)}}>
+                      { sit.index }
+                    </Avatar>
+                  </>
+                );
+              })
+            }
+          </Grid>
+        }
+      </Grid>
+    );
+
+    return returnComp;
+  }
+
   return (
     <>
       <div style={{ paddingTop: '20px' }}>
         { t('gaming') }
+      </div>
+
+      <div style={{ paddingTop: '20px' }}>
+        { t('dead_message') }
+      </div>
+
+      <div>
+        <ul>
+          {
+            messages.map(message => <li>{ message }</li>)
+          }
+        </ul>
+      </div>
+
+      <div>
+          {
+            (dayType === DAY_TYPE.DAY) && (
+              <Button onClick={() => (setIsOpenVote(true))} variant="contained" color="secondary">{ t('start_vote') }</Button>
+            )
+          }
       </div>
 
       <AudioSound
@@ -306,6 +530,7 @@ const Game = (props) => {
 
       { /* Wolf Kill Start */ }
       <Dialog
+        fullWidth
         open={isOpenWolfKill}
         // onClose={handleCloseWolfKill}
         aria-labelledby="alert-dialog-title"
@@ -314,31 +539,11 @@ const Game = (props) => {
         <DialogTitle id="alert-dialog-title">{t('wolf_kill')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <Grid container justify="center" alignItems="center">
-              {
-                list.map(sit => {
-                  let className = classes.avatar;
-
-                  if (deadNumber) {
-                    if (deadNumber.index === sit.index) {
-                      className = classes.pinkAvatar;
-                    };
-                  }
-
-                  return (
-                    <>
-                      <Avatar className={className} onClick={() => {setDeadNumber(sit)}}>
-                        { sit.index }
-                      </Avatar>
-                    </>
-                  );
-                })
-              }
-            </Grid>
+            { generateSelectPicker(WOLF.key) }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseWolfKill} color="primary" disabled={deadNumber === null}>
+          <Button onClick={handleCloseWolfKill} color="primary" disabled={deadNumber === null} variant="contained">
             { t('confirm') }
           </Button>
         </DialogActions>
@@ -347,6 +552,7 @@ const Game = (props) => {
 
       { /* Witch Save Start */ }
       <Dialog
+        fullWidth
         open={isOpenWitchSave}
         // onClose={handleCloseWolfKill}
         aria-labelledby="alert-dialog-title"
@@ -361,11 +567,11 @@ const Game = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => {handleWitchSave(true)}} color="primary">
-            { t('yes') }
-          </Button>
-          <Button onClick={() => {handleWitchSave(false)}} color="primary">
+          <Button onClick={() => {handleWitchSave(false)}} color="primary" variant="outlined">
             { t('no') }
+          </Button>
+          <Button onClick={() => {handleWitchSave(true)}} color="primary" variant="contained">
+            { t('yes') }
           </Button>
         </DialogActions>
       </Dialog>
@@ -373,6 +579,7 @@ const Game = (props) => {
 
       {/* Witch Poison Start */}
       <Dialog
+        fullWidth
         open={isOpenWitchPoison}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -380,43 +587,15 @@ const Game = (props) => {
         <DialogTitle id="alert-dialog-title">{t('witch_poison')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <Grid container justify="center" alignItems="center">
-              {
-                (isUse) ? (
-                  t('is_use_save')
-                ) : (
-                  <Grid container justify="center" alignItems="center">
-                    {
-                      list.map(sit => {
-                        let className = classes.avatar;
-
-                        if (witchDeadNumber) {
-                          if (witchDeadNumber.index === sit.index) {
-                            className = classes.pinkAvatar;
-                          };
-                        }
-
-                        return (
-                          <>
-                            <Avatar className={className} onClick={() => {setWitchDeadNumber(sit)}}>
-                              { sit.index }
-                            </Avatar>
-                          </>
-                        );
-                      })
-                    }
-                  </Grid>
-                )
-              }
-            </Grid>
+            { generateSelectPicker(WITCH.key) }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button disabled={(isUse || witchDeadNumber === null)} onClick={() => {handleWitchPoison(true)}} color="primary">
-            { t('yes') }
-          </Button>
-          <Button onClick={() => {handleWitchPoison(false)}} color="primary">
+          <Button onClick={() => {handleWitchPoison(false)}} color="primary" variant="outlined">
             { t('no') }
+          </Button>
+          <Button disabled={(isUse || witchDeadNumber === null)} onClick={() => {handleWitchPoison(true)}} color="primary" variant="contained">
+            { t('yes') }
           </Button>
         </DialogActions>
       </Dialog>
@@ -424,6 +603,7 @@ const Game = (props) => {
 
       {/* Predictor Start */}
       <Dialog
+        fullWidth
         open={isOpenPredictor}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -431,36 +611,12 @@ const Game = (props) => {
         <DialogTitle id="alert-dialog-title">{t('predictor_select')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <Grid container justify="center" alignItems="center">
-              {
-                <Grid container justify="center" alignItems="center">
-                  {
-                    list.map(sit => {
-                      let className = classes.avatar;
-
-                      if (predictorSelect) {
-                        if (predictorSelect.index === sit.index) {
-                          className = classes.pinkAvatar;
-                        };
-                      }
-
-                      return (
-                        <>
-                          <Avatar className={className} onClick={() => {setPredictorSelect(sit)}}>
-                            { sit.index }
-                          </Avatar>
-                        </>
-                      );
-                    })
-                  }
-                </Grid>
-              }
-            </Grid>
+            { generateSelectPicker(PREDICTOR.key) }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button disabled={predictorSelect === null} onClick={() => {handlePredictor()}} color="primary">
-            { t('yes') }
+          <Button disabled={predictorSelect === null} onClick={() => {handlePredictor()}} color="primary" variant="contained">
+            { t('confirm') }
           </Button>
         </DialogActions>
       </Dialog>
@@ -468,6 +624,7 @@ const Game = (props) => {
 
       {/* Check Role Start */}
       <Dialog
+        fullWidth
         open={isOpenRole}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -485,7 +642,7 @@ const Game = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => {handleCloseCheckRole()}} color="primary">
+          <Button onClick={() => {handleCloseCheckRole()}} color="primary" variant="contained">
             { t('confirm') }
           </Button>
         </DialogActions>
@@ -494,6 +651,7 @@ const Game = (props) => {
 
       {/* Result Start*/}
       <Dialog
+        fullWidth
         open={isOpenResult}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -502,27 +660,38 @@ const Game = (props) => {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {
-              (deadNumber === null && witchDeadNumber === null) ? (
-                t('christmas_eve')
-              ) : (
-                <>
-                  { deadNumber.index }
-                  {
-                    (witchDeadNumber !== null && witchDeadNumber.index !== deadNumber.index) && `, ${witchDeadNumber.index}`
-                  }
-                </>
-              )
+              generateResultMessage()
             }
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => {setIsOpenResult(false)}} color="primary">
+          <Button onClick={handleCloseResult} color="primary" variant="contained">
             { t('confirm') }
           </Button>
         </DialogActions>
       </Dialog>
       {/* Result End*/}
 
+      { /* Vote Start */ }
+      <Dialog
+        fullWidth
+        open={isOpenVote}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{t('start_vote')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            { generateSelectPicker('') }
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {console.log('TODO')}} color="primary" variant="contained">
+            { t('confirm') }
+          </Button>
+        </DialogActions>
+      </Dialog>
+      { /* Vote End */ }
     </>
   );
 };

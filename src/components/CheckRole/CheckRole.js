@@ -88,22 +88,22 @@ const RoleCard = (props) => {
       </Paper>
 
       <Dialog
+        fullWidth
         open={isOpen}
-        onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{t('your_role')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <img src={src} width="100vh" />
+            <img src={src} width="100%" />
             <div className={classes.role}>
               { t(sit.role.key) }
             </div>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="primary" variant="contained">
             { t('confirm') }
           </Button>
         </DialogActions>

@@ -102,6 +102,7 @@ const Home = (props) => {
   };
 
   const handleRestart = () => {
+    window.location.href = '/';
     setIsOpenDrawer(false);
   }
 
@@ -253,10 +254,12 @@ const Home = (props) => {
                 <ListItemIcon><CachedIcon /></ListItemIcon>
                 <ListItemText primary={t('restart')} />
               </ListItem>
+              {/*}
               <ListItem button key={t('resetting')} onClick={handleReSetting}>
                 <ListItemIcon><AutorenewIcon /></ListItemIcon>
                 <ListItemText primary={t('resetting')} />
               </ListItem>
+              {*/}
             </List>
           </Drawer>
             

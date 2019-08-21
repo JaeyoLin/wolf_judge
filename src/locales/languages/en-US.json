@@ -29,5 +29,9 @@
   "is_wolf": "狼人",
   "not_wolf": "好人",
   "yesterday_dead": "昨天死掉的人是",
-  "christmas_eve": "平安夜"
+  "christmas_eve": "平安夜",
+  "dead_message": "死亡訊息",
+  "n_day": "第 {{day}} 天夜晚: ",
+  "n_night" : "第 {{day}} 天白天: ",
+  "start_vote": "開始投票"
 }
