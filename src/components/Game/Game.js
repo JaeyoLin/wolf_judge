@@ -117,7 +117,7 @@ const Game = (props) => {
     wolfNumber,
   } = props;
 
-  console.log('list', list);
+  // console.log('list', list);
 
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
@@ -151,8 +151,8 @@ const Game = (props) => {
   const [isHunterDead, setIsHunterDead] = useState(false); // 獵人是否死亡
   const [isOpenLastWords, setIsOpenLastWords] = useState(false); // 遺言視窗
 
-  console.log('isKillByWitch', isKillByWitch);
-  console.log('isUsePoison', isUsePoison);
+  // console.log('isKillByWitch', isKillByWitch);
+  // console.log('isUsePoison', isUsePoison);
 
   const handleSongFinishedPlaying = useCallback(() => {
     // setStep(step + 1);
@@ -439,13 +439,6 @@ const Game = (props) => {
       }
       if (witchDeadNumber !== null && deadNumber !== null && witchDeadNumber.index !== deadNumber.index) {
         tmp.push(witchDeadNumber.index);
-        // console.log('witchDeadNumber', witchDeadNumber);
-        // console.log('deadNumber', deadNumber);
-        // if (deadNumber !== null && witchDeadNumber.index !== deadNumber.index) {
-        //   tmp.push(witchDeadNumber.index);
-        // } else {
-        //   tmp.push(witchDeadNumber.index);
-        // }
       }
 
       // 重新排序
@@ -705,8 +698,8 @@ const Game = (props) => {
       }
     }
 
-    console.log('dead', dead);
-    console.log('wolfNumber', wolfNumber);
+    // console.log('dead', dead);
+    // console.log('wolfNumber', wolfNumber);
 
     // 判斷好人是否獲勝
     let deadWolf = 0;
@@ -715,7 +708,7 @@ const Game = (props) => {
         deadWolf += 1;
       }
     });
-    console.log('deadWolf', deadWolf);
+    // console.log('deadWolf', deadWolf);
 
     if (deadWolf === wolfNumber) {
       return {
@@ -725,16 +718,8 @@ const Game = (props) => {
     }
 
     // 判斷壞人是否獲勝
-    // let deadPerson = 0;
-    // // console.log('dead', dead);
-    // dead.forEach((dead) => {
-    //   if (dead.role.key !== WOLF.key) {
-    //     deadPerson += 1;
-    //   }
-    // });
-
-    // console.log('deadPerson', deadPerson);
-    console.log('playerNumber', playerNumber);
+   
+    // console.log('playerNumber', playerNumber);
 
     if ((playerNumber - dead.length) <= (wolfNumber - deadWolf) * 2) {
       return {
@@ -758,7 +743,7 @@ const Game = (props) => {
   const handleShoot = (isShoot) => {
     setIsOpenHunter(false);
     setIsUseHunterSkill(true);
-    console.log('isShoot', isShoot);
+    // console.log('isShoot', isShoot);
     if (isShoot) {
       const tmpDead = [
         ...dead,
