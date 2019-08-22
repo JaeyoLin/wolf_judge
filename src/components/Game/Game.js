@@ -146,10 +146,10 @@ const Game = (props) => {
   const [isOpenHunter, setIsOpenHunter] = useState(false); // 是否開啟獵人視窗
   const [isKillByWitch, setIsKillByWitch] = useState(false); // 獵人是否被毒殺
   const [isOpenHunterShoot, setIsOpenHunterShoot] = useState(false); // 是否開啟獵人槍殺訊息
-
   const [isPredictorDead, setIsPredictorDead] = useState(false); // 預言家是否死亡
   const [isWitchDead, setIsWitchDead] = useState(false); // 女巫是否死亡
   const [isHunterDead, setIsHunterDead] = useState(false); // 獵人是否死亡
+  const [isOpenLastWords, setIsOpenLastWords] = useState(false); // 遺言視窗
 
   console.log('isKillByWitch', isKillByWitch);
   console.log('isUsePoison', isUsePoison);
@@ -295,14 +295,17 @@ const Game = (props) => {
    * @param {bool} isSave - true: 使用, false: 不使用
    */
   const handleWitchSave = (isSave) => {
-    if (isSave) {
-      // 使用解藥
-      setIsUse(true);
-      setIsUseSave(true);
-      setDeadNumber(null);
-    }
     setIsOpenWitchSave(false);
     setStep(9);
+
+    if (isSave) {
+      // 使用解藥
+      setTimeout(() => {
+        setIsUse(true);
+        setIsUseSave(true);
+        setDeadNumber(null);
+      }, 100);
+    }
   }
 
   /**
@@ -312,8 +315,13 @@ const Game = (props) => {
    * @param {bool} isPoison - true: 使用, false: 不使用
    */
   const handleWitchPoison = (isPoison) => {
+    setIsOpenWitchPoison(false);
+    setStep(11);
+
     if (!isUsePoison) {
-      setIsUsePoison(isPoison);
+      setTimeout(() => {
+        setIsUsePoison(isPoison);
+      }, 100);
     }
 
     if (!isPoison) {
@@ -321,9 +329,6 @@ const Game = (props) => {
     }
 
     setIsKillByWitch(isPoison);
-
-    setIsOpenWitchPoison(false);
-    setStep(11);
   }
 
   /**
@@ -425,18 +430,22 @@ const Game = (props) => {
   const generateResultMessage = () => {
     let returnMessage = null;
     if (deadNumber === null && witchDeadNumber === null) {
-      returnMessage = t('christmas_eve')
+      returnMessage = t('christmas_eve');
+      return returnMessage;
     } else {
       let tmp = [];
       if (deadNumber !== null) {
         tmp.push(deadNumber.index);
       }
-      if (witchDeadNumber !== null) {
-        if (deadNumber !== null && witchDeadNumber.index !== deadNumber.index) {
-          tmp.push(witchDeadNumber.index);
-        } else {
-          tmp.push(witchDeadNumber.index);
-        }
+      if (witchDeadNumber !== null && deadNumber !== null && witchDeadNumber.index !== deadNumber.index) {
+        tmp.push(witchDeadNumber.index);
+        // console.log('witchDeadNumber', witchDeadNumber);
+        // console.log('deadNumber', deadNumber);
+        // if (deadNumber !== null && witchDeadNumber.index !== deadNumber.index) {
+        //   tmp.push(witchDeadNumber.index);
+        // } else {
+        //   tmp.push(witchDeadNumber.index);
+        // }
       }
 
       // 重新排序
@@ -453,7 +462,7 @@ const Game = (props) => {
       });
     }
 
-    return returnMessage;
+    return t('dead_player', { returnMessage });
   }
 
   /**
@@ -512,7 +521,9 @@ const Game = (props) => {
       if (isHunter) {
         setIsOpenHunter(true);
       } else {
-        initSelect(false);
+        setTimeout(() => {
+          initSelect(false);
+        }, 100);
       }
     }
   }
@@ -639,11 +650,13 @@ const Game = (props) => {
         if (isHunter) {
           setIsOpenHunter(true);
         } else {
-          initSelect(true);
+          // initSelect(true);
+          setIsOpenLastWords(true);
         }
       }
     } else {
-      initSelect(true);
+      // initSelect(true);
+      setIsOpenLastWords(true);
     }
   }
 
@@ -855,6 +868,16 @@ const Game = (props) => {
     return villagesInfo;
   };
 
+  /**
+   * handleCloseLastWords
+   * 關閉遺言視窗
+   * 
+   */
+  const handleCloseLastWords = () => {
+    setIsOpenLastWords(false);
+    initSelect(true);
+  };
+
   return (
     <>
       <div style={{ paddingTop: '20px' }}>
@@ -865,7 +888,7 @@ const Game = (props) => {
         { t('dead_message') }
       </div>
 
-      <div>
+      <div style={{ textAlign: 'left', marginLeft: '10%' }}>
         <ul>
           {
             messages.map(message => <li>{ message }</li>)
@@ -1152,6 +1175,27 @@ const Game = (props) => {
         </DialogActions>
       </Dialog>
       {/* Hunter Could Shoot End */}
+
+      {/* Last Words Start */}
+      <Dialog
+        fullWidth
+        open={isOpenLastWords}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{t('last_words')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            ...
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => { handleCloseLastWords(); }} color="primary" variant="contained">
+            { t('to_night') }
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Last Words End */}
     </>
   );
 };

@@ -28,8 +28,9 @@
   "role_result": "這位玩家的身份是",
   "is_wolf": "狼人",
   "not_wolf": "好人",
-  "yesterday_dead": "昨天死掉的人是",
+  "yesterday_dead": "昨夜的情況是",
   "christmas_eve": "平安夜",
+  "dead_player": "{{ returnMessage }} 號玩家死亡",
   "dead_message": "死亡訊息",
   "n_day": "第 {{day}} 天白天: ",
   "n_night" : "第 {{day}} 天夜晚: ",
@@ -45,5 +46,7 @@
   "could_shoot": "獵人是否可以開槍",
   "can_shoot": "可以",
   "cant_shoot": "不可以",
-  "hunter_shoot_player": "獵人射殺: {{index}}"
+  "hunter_shoot_player": "獵人射殺: {{index}}",
+  "last_words": "請發表遺言",
+  "to_night": "天黑請閉眼"
 }
