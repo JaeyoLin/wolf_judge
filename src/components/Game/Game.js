@@ -490,14 +490,14 @@ const Game = (props) => {
     // 狼人殺死的人
     if (deadNumber !== null) {
       tmpArray.push(deadNumber);
-      setDead([
-        ...dead,
-        deadNumber,
-      ]);
+      // setDead([
+      //   ...dead,
+      //   deadNumber,
+      // ]);
     }
 
     // 女巫毒的人
-    if (isUseWitch && witchDeadNumber !== null) {
+    if (isUseWitch && witchDeadNumber !== null && deadNumber.index !== witchDeadNumber.index) {
       tmpArray.push(witchDeadNumber);
     }
 
