@@ -27,7 +27,7 @@ import {
   PREDICTOR,
   WITCH,
   HUNTER,
-  // VILLAGER,
+  VILLAGER,
 } from '../../constants/Role';
 
 import step1 from '../../static/audio/step_1.mp3'; // 天黑請閉眼
@@ -829,6 +829,32 @@ const Game = (props) => {
     setStep(17);
   }
 
+  // console.log('1111', list.find(role => role.role.key === PREDICTOR.key).index);
+  const getWolfs = () => {
+    //list.filter(role => role.role.key === WOLF.key)
+    let wolfsInfo = '';
+    const wolfs = list.filter(role => role.role.key === WOLF.key);
+    wolfs.forEach((tmp, index) => {
+      wolfsInfo += tmp.index;
+      if (wolfs.length - 1 !== index) {
+        wolfsInfo += ', ';
+      }
+    });
+    return wolfsInfo;
+  };
+
+  const getVillages = () => {
+    let villagesInfo = '';
+    const villages = list.filter(role => role.role.key === VILLAGER.key);
+    villages.forEach((tmp, index) => {
+      villagesInfo += tmp.index;
+      if (villages.length - 1 !== index) {
+        villagesInfo += ', ';
+      }
+    });
+    return villagesInfo;
+  };
+
   return (
     <>
       <div style={{ paddingTop: '20px' }}>
@@ -1053,6 +1079,19 @@ const Game = (props) => {
             { 
               <span className={classes.good}>{gameResultMessage}</span>
             }
+            <ul>
+              <li>{`${t('wolf')}: ${getWolfs()}`}</li>
+              {
+                (isUsePredictor) && (<li>{`${t('predictor')}: ${list.find(role => role.role.key === PREDICTOR.key).index}`}</li>)
+              }
+              {
+                (isUseWitch) && (<li>{`${t('witch')}: ${list.find(role => role.role.key === WITCH.key).index}`}</li>)
+              }
+              {
+                (isUseHunter) && (<li>{`${t('hunter')}: ${list.find(role => role.role.key === HUNTER.key).index}`}</li>)
+              }
+              <li>{`${t('villager')}: ${getVillages()}`}</li>
+            </ul>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
