@@ -304,7 +304,7 @@ const Game = (props) => {
         setIsUse(true);
         setIsUseSave(true);
         setDeadNumber(null);
-      }, 100);
+      }, 500);
     }
   }
 
@@ -321,7 +321,7 @@ const Game = (props) => {
     if (!isUsePoison) {
       setTimeout(() => {
         setIsUsePoison(isPoison);
-      }, 100);
+      }, 500);
     }
 
     if (!isPoison) {
@@ -523,7 +523,7 @@ const Game = (props) => {
       } else {
         setTimeout(() => {
           initSelect(false);
-        }, 100);
+        }, 500);
       }
     }
   }
