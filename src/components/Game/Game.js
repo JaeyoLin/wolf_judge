@@ -314,12 +314,13 @@ const Game = (props) => {
   const handleWitchPoison = (isPoison) => {
     if (!isUsePoison) {
       setIsUsePoison(isPoison);
-      setIsKillByWitch(isPoison);
     }
 
     if (!isPoison) {
       setWitchDeadNumber(null);
     }
+
+    setIsKillByWitch(isPoison);
 
     setIsOpenWitchPoison(false);
     setStep(11);
