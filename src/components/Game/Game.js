@@ -312,12 +312,14 @@ const Game = (props) => {
    * @param {bool} isPoison - true: 使用, false: 不使用
    */
   const handleWitchPoison = (isPoison) => {
-    setIsUsePoison(isPoison);
+    if (!isUsePoison) {
+      setIsUsePoison(isPoison);
+      setIsKillByWitch(isPoison);
+    }
+
     if (!isPoison) {
       setWitchDeadNumber(null);
     }
-
-    setIsKillByWitch(isPoison);
 
     setIsOpenWitchPoison(false);
     setStep(11);
@@ -657,7 +659,7 @@ const Game = (props) => {
     // console.log('isUseHunter', isUseHunter);
     // console.log('isUseHunterSkill', isUseHunterSkill);
     // console.log('isKillByWitch', isKillByWitch);
-    if (isUseHunter && !isUseHunterSkill && !isKillByWitch) {
+    if (isUseHunter && !isUseHunterSkill && !isKillByWitch && !isHunterDead) {
       isHunter = dead.some(tmp => tmp.role.key === HUNTER.key);
     }
     // console.log('isHunter', isHunter);
