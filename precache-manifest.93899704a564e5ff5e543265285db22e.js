@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "562fc180817dc5b57def3fd6d4dac4e1",
+    "revision": "403d39c3f7fdf963bcf24c46decc5c0f",
     "url": "/wolf_judge/index.html"
   },
   {
