@@ -1,3 +1,4 @@
+importScripts('cache-polyfill.js');
 /**
  * Copyright 2016 Google Inc. All rights reserved.
  *
