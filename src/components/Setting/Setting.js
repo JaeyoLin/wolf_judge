@@ -44,6 +44,8 @@ const Setting = (props) => {
     handleStart,
     isKillKind,
     setIsKillKind,
+    isUseKnight,
+    setIsUseKnight,
   } = props;
 
   // console.log('wolfNumber', wolfNumber);
@@ -135,6 +137,20 @@ const Setting = (props) => {
             className={classes.group}
             value={isUseHunter}
             onChange={(e) => {setIsUseHunter((e.target.value === 'true'))}}
+          >
+            <FormControlLabel value={true} control={<Radio />} label={t('yes')} />
+            <FormControlLabel value={false} control={<Radio />} label={t('no')} />
+          </RadioGroup>
+        </FormControl>
+      </div>
+      <div>
+        <FormControl component="fieldset" className={classes.formControl}>
+          <FormLabel component="legend">{t('knight')}</FormLabel>
+          <RadioGroup
+            row
+            className={classes.group}
+            value={isUseKnight}
+            onChange={(e) => {setIsUseKnight((e.target.value === 'true'))}}
           >
             <FormControlLabel value={true} control={<Radio />} label={t('yes')} />
             <FormControlLabel value={false} control={<Radio />} label={t('no')} />

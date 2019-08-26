@@ -10,6 +10,7 @@
   "witch": "Witch",
   "hunter": "Hunter",
   "villager": "Villager",
+  "knight": "Knight",
   "yes": "Yes",
   "no": "No",
   "finished": "Finished",
@@ -50,5 +51,9 @@
   "last_words": "Publish last words",
   "to_night": "Close your eyes",
   "is_kill_kind": "Kill kind",
-  "bad_win_kind": "Bad guy win"
+  "bad_win_kind": "Bad guy win",
+  "knight_fight": "Kinght fight",
+  "fight_result": "Fight Result",
+  "no_is_wolf": "{{index}} is the wolf.",
+  "no_is_not_wolf": "{{index}} is not the wolf. Knight is dead."
 }

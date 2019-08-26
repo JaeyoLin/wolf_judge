@@ -18,6 +18,7 @@ import wolf from '../../static/images/wolf.jpg';
 import predictor from '../../static/images/predictor.jpg';
 import witch from '../../static/images/witch.jpg';
 import hunter from '../../static/images/hunter.jpg';
+import knight from '../../static/images/knight.jpg';
 import villager from '../../static/images/villager.jpg';
 
 const useStyles = makeStyles(theme => ({
@@ -66,6 +67,9 @@ const RoleCard = (props) => {
       break;
     case 'hunter':
       src = hunter;
+      break;
+    case 'knight':
+      src = knight;
       break;
     case 'villager':
       src = villager;

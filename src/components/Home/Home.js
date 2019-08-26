@@ -27,6 +27,7 @@ import {
   PREDICTOR,
   WITCH,
   HUNTER,
+  KNIGHT,
   VILLAGER,
 } from '../../constants/Role';
 import Setting from '../Setting/Setting';
@@ -85,6 +86,7 @@ const Home = (props) => {
   const [isUsePredictor, setIsUsePredictor] = useState(false);
   const [isUseWitch, setIsUseWitch] = useState(true);
   const [isUseHunter, setIsUseHunter] = useState(false);
+  const [isUseKnight, setIsUseKnight] = useState(false);
   const [isKillKind, setIsKillKind] = useState(false); // 屠邊局判斷
 
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -197,6 +199,25 @@ const Home = (props) => {
       };
     }
 
+    // 騎士位置
+    if (isUseKnight) {
+      let index = null;
+
+      beginning: while(true) {
+        index = getRaddomIndex();
+        if(list[index] !== null) {
+          continue beginning;
+        } else {
+          break;
+        }
+      }
+
+      list[index] = {
+        index: index + 1,
+        role: KNIGHT,
+      };
+    }
+
     // 村民位置
     list.forEach((sit, index) => {
       if (sit === null) {
@@ -283,6 +304,8 @@ const Home = (props) => {
                 handleStart={handleStart}
                 isKillKind={isKillKind}
                 setIsKillKind={setIsKillKind}
+                isUseKnight={isUseKnight}
+                setIsUseKnight={setIsUseKnight}
               />
             )
           }
@@ -305,6 +328,7 @@ const Home = (props) => {
                 wolfNumber={wolfNumber}
                 isKillKind={isKillKind}
                 setIsKillKind={setIsKillKind}
+                isUseKnight={isUseKnight}
               />
             )
           }

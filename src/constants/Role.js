@@ -26,6 +26,13 @@ export const HUNTER = {
   src: 'hunter.jpg',
 };
 
+export const KNIGHT = {
+  key: 'knight',
+  isGood: true,
+  isGod: true,
+  src: 'knight.jpg',
+};
+
 export const VILLAGER = {
   key: 'villager',
   isGood: true,

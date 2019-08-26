@@ -30,6 +30,7 @@ import {
   PREDICTOR,
   WITCH,
   HUNTER,
+  KNIGHT,
   VILLAGER,
 } from '../../constants/Role';
 
@@ -50,7 +51,9 @@ import step14 from '../../static/audio/step_14.mp3'; // 他的身份是
 import step15 from '../../static/audio/step_15.mp3'; // 預言家請閉眼
 import step16 from '../../static/audio/step_16.mp3'; // 獵人請睜眼
 import step17 from '../../static/audio/step_17.mp3'; // 獵人請閉眼
-import step18 from '../../static/audio/step_18.mp3'; // 天亮請睜眼
+import step18 from '../../static/audio/step_18.mp3'; // 騎士請睜眼
+import step19 from '../../static/audio/step_19.mp3'; // 騎士請閉眼
+import step20 from '../../static/audio/step_20.mp3'; // 天亮請睜眼
 
 /**
  * IS_DEBUG
@@ -126,6 +129,7 @@ const Game = (props) => {
     playerNumber,
     wolfNumber,
     isKillKind,
+    isUseKnight,
   } = props;
 
   if (IS_DEBUG) {
@@ -167,6 +171,11 @@ const Game = (props) => {
   const [isHunterDead, setIsHunterDead] = useState(false); // 獵人是否死亡
   const [isOpenLastWords, setIsOpenLastWords] = useState(false); // 遺言視窗
 
+  const [isUseKnightSkill, setIsUseKnightSkill] = useState(false); // 騎士是否已實用技能
+  const [isOpenKnight, setIsOpenKnight] = useState(false); // 開啟騎士選擇對象視窗
+  const [knightSelect, setKnightSelect] = useState(null); // 騎士選擇
+  const [isOpenKnightResult, setIsOpenKnightResult] = useState(false); // 騎士驗人結果
+
   // console.log('isKillByWitch', isKillByWitch);
   // console.log('isUsePoison', isUsePoison);
 
@@ -199,7 +208,11 @@ const Game = (props) => {
               // 是否使用獵人
               setStep(16);
             } else {
-              setStep(18);
+              if (isUseKnight) {
+                setStep(18);
+              } else {
+                setStep(20);
+              }
             }
           }
         }
@@ -242,7 +255,11 @@ const Game = (props) => {
             // 是否使用獵人
             setStep(16);
           } else {
-            setStep(18);
+            if (isUseKnight) {
+              setStep(18);
+            } else {
+              setStep(20);
+            }
           }
         }
         // setStep(12);
@@ -272,7 +289,11 @@ const Game = (props) => {
           // 是否使用獵人
           setStep(16);
         } else {
-          setStep(18);
+          if (isUseKnight) {
+            setStep(18);
+          } else {
+            setStep(20);
+          }
         }
         break;
       case 16:
@@ -285,9 +306,19 @@ const Game = (props) => {
         }
         break;
       case 17:
-        setStep(18);
+        if (isUseKnight) {
+          setStep(18);
+        } else {
+          setStep(20);
+        }
         break;
       case 18:
+        setStep(19);
+        break;
+      case 19:
+        setStep(20);
+        break;
+      case 20:
         setIsOpenResult(true);
         break;
       default:
@@ -437,6 +468,12 @@ const Game = (props) => {
       case 18:
         returnSrc = step18;
         break;
+      case 19:
+          returnSrc = step19;
+          break;
+      case 20:
+        returnSrc = step20;
+        break;
       default:
         break;
     }
@@ -574,6 +611,11 @@ const Game = (props) => {
       case HUNTER.key:
         selectValue = hunterSelect;
         selectFunc = setHunterSelect;
+        break;
+      // 騎士
+      case KNIGHT.key:
+        selectValue = knightSelect;
+        selectFunc = setKnightSelect;
         break;
       // 一般投票
       default:
@@ -867,6 +909,7 @@ const Game = (props) => {
     setSelectVote(null); // 投票選擇
     setIsUse(false);
     setHunterSelect(null); // 獵人選擇
+    setKnightSelect(null); // 騎士選擇
 
     if (isNextDay) {
       // 進入下一天
@@ -938,6 +981,67 @@ const Game = (props) => {
     initSelect(true);
   };
 
+  /**
+   * handleFight
+   * 決鬥結果
+   * 
+   */
+  const handleFight = () => {
+    setIsOpenKnight(false);
+    setIsOpenKnightResult(true);
+  }
+
+  /**
+   * handleCloseFight
+   * 關閉決鬥結果
+   * 
+   */
+  const handleCloseFight = () => {
+    setIsUseKnightSkill(true);
+    setIsOpenKnightResult(false);
+    let tmpDead = [];
+
+    if (knightSelect !== null && knightSelect.role.key === WOLF.key) {
+      tmpDead = [
+        ...dead,
+        knightSelect,
+      ];
+
+      setMessages([
+        ...messages,
+        t('no_is_wolf', { index: knightSelect.index })
+      ]);
+    } else {
+      tmpDead = [
+        ...dead,
+        list.find(tmp => tmp.role.key === KNIGHT.key),
+      ];
+
+      setMessages([
+        ...messages,
+        t('no_is_not_wolf', { index: knightSelect.index })
+      ]);
+    }
+
+    if (IS_DEBUG) {
+      console.log('handleCloseFight tmpDead', tmpDead);
+    }
+
+    setDead(tmpDead);
+    const result = checkGameFinished(tmpDead);
+
+    if (result.isFinished) {
+      setIsOpenGameResult(true);
+      setGameResultMessage(result.message);
+    } else {
+      initSelect(true);
+    }
+  }
+
+  /**
+   * React - render
+   * 
+   */
   return (
     <>
       <div style={{ paddingTop: '20px' }}>
@@ -961,6 +1065,15 @@ const Game = (props) => {
             (dayType === DAY_TYPE.DAY) && (
               <>
                 <Divider style={{ marginBottom: '20px' }} />
+                <Button
+                  disabled={(!isUseKnight || isUseKnightSkill)}
+                  onClick={() => (setIsOpenKnight(true))}
+                  variant="contained"
+                  color="secondary"
+                >
+                  { t('knight_fight') }
+                </Button>
+                <Divider style={{ marginTop: '20px', marginBottom: '20px' }} />
                 <Button onClick={() => (setIsOpenVote(true))} variant="contained" color="secondary">{ t('start_vote') }</Button>
               </>
             )
@@ -1192,6 +1305,9 @@ const Game = (props) => {
               {
                 (isUseHunter) && (<li>{`${t('hunter')}: ${list.find(role => role.role.key === HUNTER.key).index}`}</li>)
               }
+              {
+                (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
+              }
               <li>{`${t('villager')}: ${getVillages()}`}</li>
             </ul>
           </DialogContentText>
@@ -1279,6 +1395,63 @@ const Game = (props) => {
         </DialogActions>
       </Dialog>
       {/* Last Words End */}
+
+      {/* Knight Start */}
+      <Dialog
+        fullWidth
+        open={isOpenKnight}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{t('knight_fight')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {
+              (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
+            }
+            { generateSelectPicker(KNIGHT.key) }
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button disabled={knightSelect === null} onClick={() => {handleFight()}} color="primary" variant="contained">
+            { t('confirm') }
+            <CheckIcon />
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Knight End */}
+
+      {/* Knight Result Start */}
+      <Dialog
+        fullWidth
+        open={isOpenKnightResult}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{t('fight_result')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {
+              (knightSelect !== null) ? (
+                (knightSelect.role.key === WOLF.key) ? (
+                  <span className={classes.bad}>{t('no_is_wolf', { index: knightSelect.index })}</span>
+                ) : (
+                  <span className={classes.good}>{t('no_is_not_wolf', { index: knightSelect.index })}</span>
+                )
+              ) : (
+                null
+              )
+            }
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {handleCloseFight()}} color="primary" variant="contained">
+            { t('to_night') }
+            <CheckIcon />
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Knight Result End */}
     </>
   );
 };
