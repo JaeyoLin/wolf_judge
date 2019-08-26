@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "48f2662bd3f319922c095d1fc2255280",
+    "revision": "75212dfa01ac6e8d9d10e09608c34d97",
     "url": "/wolf_judge/index.html"
   },
   {
-    "revision": "214178dad692ce6aafd4",
+    "revision": "e460617ef368fcc55d9c",
     "url": "/wolf_judge/static/css/main.c481ef37.chunk.css"
   },
   {
-    "revision": "8a95c29fdffb50def123",
-    "url": "/wolf_judge/static/js/2.4e4e341a.chunk.js"
+    "revision": "801881634ddaf1d1a0d5",
+    "url": "/wolf_judge/static/js/2.0907aec7.chunk.js"
   },
   {
-    "revision": "214178dad692ce6aafd4",
-    "url": "/wolf_judge/static/js/main.c4da392b.chunk.js"
+    "revision": "e460617ef368fcc55d9c",
+    "url": "/wolf_judge/static/js/main.3b5e7e9d.chunk.js"
   },
   {
     "revision": "d718bb2690348fd71462",
@@ -22,6 +22,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "5cf4e8f1e6889192e34af924b322f224",
     "url": "/wolf_judge/static/media/hunter.5cf4e8f1.jpg"
+  },
+  {
+    "revision": "998fe9ac3100bd09061d90b9b06c3ec1",
+    "url": "/wolf_judge/static/media/knight.998fe9ac.jpg"
   },
   {
     "revision": "473d5f2891a7a2e5bd3a484df2a28136",
@@ -64,12 +68,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/wolf_judge/static/media/step_17.e7d96e3e.mp3"
   },
   {
-    "revision": "a7d9ef5f0acbc4b5dc0c5f771ffba06a",
-    "url": "/wolf_judge/static/media/step_18.a7d9ef5f.mp3"
+    "revision": "527b59e141043952db33b06a584de5c8",
+    "url": "/wolf_judge/static/media/step_18.527b59e1.mp3"
+  },
+  {
+    "revision": "75d0a097188a359d642add9e433e81ff",
+    "url": "/wolf_judge/static/media/step_19.75d0a097.mp3"
   },
   {
     "revision": "264c120e03b1bd33f61c71cb75554f20",
     "url": "/wolf_judge/static/media/step_2.264c120e.mp3"
+  },
+  {
+    "revision": "a7d9ef5f0acbc4b5dc0c5f771ffba06a",
+    "url": "/wolf_judge/static/media/step_20.a7d9ef5f.mp3"
   },
   {
     "revision": "3f6f4aa3d8273c38b432938e5ad3f8f6",
