@@ -19,6 +19,9 @@ import {
   // green,
   pink,
 } from '@material-ui/core/colors';
+import Divider from '@material-ui/core/Divider';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { useTranslation } from "react-i18next";
 
@@ -48,6 +51,13 @@ import step15 from '../../static/audio/step_15.mp3'; // 預言家請閉眼
 import step16 from '../../static/audio/step_16.mp3'; // 獵人請睜眼
 import step17 from '../../static/audio/step_17.mp3'; // 獵人請閉眼
 import step18 from '../../static/audio/step_18.mp3'; // 天亮請睜眼
+
+/**
+ * IS_DEBUG
+ * 是否開啟 console.log 資訊
+ * 
+ */
+const IS_DEBUG = true;
 
 /**
  * DAY_TYPE
@@ -115,9 +125,15 @@ const Game = (props) => {
     isUseHunter,
     playerNumber,
     wolfNumber,
+    isKillKind,
   } = props;
 
-  // console.log('list', list);
+  if (IS_DEBUG) {
+    // console.log('list', list);
+    console.log('===== Role List =====');
+    list.forEach(tmp => { console.log(`${tmp.index} - ${tmp.role.key}`); });
+    console.log('=====================');
+  }
 
   const { t } = useTranslation();
   const [step, setStep] = useState(1);
@@ -326,9 +342,15 @@ const Game = (props) => {
 
     if (!isPoison) {
       setWitchDeadNumber(null);
+    } else {
+      // 使用毒藥, 判斷是不是毒到獵人
+      if (IS_DEBUG) {
+        console.log('witchDeadNumber.role.key', witchDeadNumber.role.key);
+      }
+      if (witchDeadNumber !== null && witchDeadNumber.role.key === HUNTER.key) {
+        setIsKillByWitch(true);
+      }
     }
-
-    setIsKillByWitch(isPoison);
   }
 
   /**
@@ -698,8 +720,10 @@ const Game = (props) => {
       }
     }
 
-    // console.log('dead', dead);
-    // console.log('wolfNumber', wolfNumber);
+    if (IS_DEBUG) {
+      console.log('dead', dead);
+      console.log('wolfNumber', wolfNumber);
+    }
 
     // 判斷好人是否獲勝
     let deadWolf = 0;
@@ -708,7 +732,10 @@ const Game = (props) => {
         deadWolf += 1;
       }
     });
-    // console.log('deadWolf', deadWolf);
+
+    if (IS_DEBUG) {
+      console.log('deadWolf', deadWolf);
+    }
 
     if (deadWolf === wolfNumber) {
       return {
@@ -718,13 +745,61 @@ const Game = (props) => {
     }
 
     // 判斷壞人是否獲勝
-   
-    // console.log('playerNumber', playerNumber);
+    if (IS_DEBUG) {
+      console.log('playerNumber', playerNumber);
+    }
 
     if ((playerNumber - dead.length) <= (wolfNumber - deadWolf) * 2) {
       return {
         isFinished: true,
         message: t('bad_win'),
+      }
+    }
+
+    // 判斷是否有屠邊局, 壞人是否屠邊成功
+    if (IS_DEBUG) {
+      console.log('isKillKind', isKillKind);
+    }
+    if (isKillKind) {
+      let gods = 0; // 神
+      let villagers = 0; // 民
+      let deadGods = 0; // 死掉的神
+      let deadVillagers = 0; // 死掉的民
+
+      // 玩家
+      list.forEach((tmp) => {
+        if (tmp.role.isGood) {
+          if (tmp.role.isGod) {
+            gods += 1;
+          } else {
+            villagers += 1;
+          }
+        }
+      });
+
+      // 死掉的人
+      dead.forEach((tmp) => {
+        if (tmp.role.isGood) {
+          if (tmp.role.isGod) {
+            deadGods += 1;
+          } else {
+            deadVillagers += 1;
+          }
+        }
+      });
+
+      if (IS_DEBUG) {
+        console.log('gods', gods);
+        console.log('villagers', villagers);
+        console.log('deadGods', deadGods);
+        console.log('deadVillagers', deadVillagers);
+      }
+
+      if ((deadGods !== 0 && gods === deadGods) || (deadVillagers !== 0 && villagers === deadVillagers)) {
+        return {
+          isFinished: true,
+          message: t('bad_win_kind'),
+        }
       }
     }
 
@@ -884,7 +959,10 @@ const Game = (props) => {
       <div>
           {
             (dayType === DAY_TYPE.DAY) && (
-              <Button onClick={() => (setIsOpenVote(true))} variant="contained" color="secondary">{ t('start_vote') }</Button>
+              <>
+                <Divider style={{ marginBottom: '20px' }} />
+                <Button onClick={() => (setIsOpenVote(true))} variant="contained" color="secondary">{ t('start_vote') }</Button>
+              </>
             )
           }
       </div>
@@ -911,6 +989,7 @@ const Game = (props) => {
         <DialogActions>
           <Button onClick={handleCloseWolfKill} color="primary" disabled={deadNumber === null} variant="contained">
             { t('confirm') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
@@ -931,9 +1010,9 @@ const Game = (props) => {
               (isUseSave) ? (
                 <span className={classes.good}>{t('save_used')}</span>
               ) : (
-                <Grid container justify="center" alignItems="center">
+                <span className={classes.good}>
                   { t('dead_person', { index: (deadNumber) ? deadNumber.index : null }) }
-                </Grid>
+                </span>
               )
             }
           </DialogContentText>
@@ -941,9 +1020,11 @@ const Game = (props) => {
         <DialogActions>
           <Button onClick={() => {handleWitchSave(false)}} color="primary" variant="outlined">
             { t('no') }
+            <CloseIcon />
           </Button>
           <Button onClick={() => {handleWitchSave(true)}} color="primary" variant="contained" disabled={isUseSave}>
             { t('yes') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
@@ -961,9 +1042,15 @@ const Game = (props) => {
           <DialogContentText id="alert-dialog-description">
             { 
               (isUsePoison) ? (
+                // 你已使用毒藥
                 <span className={classes.good}>{t('poison_used')}</span>
               ) : (
-                generateSelectPicker(WITCH.key)
+                (isUse) ? (
+                  // 此回合已使用解藥, 不能使用毒藥
+                  <span className={classes.good}>{t('is_use_save')}</span>
+                ) : (
+                  generateSelectPicker(WITCH.key)
+                )
               )
             }
           </DialogContentText>
@@ -971,9 +1058,11 @@ const Game = (props) => {
         <DialogActions>
           <Button onClick={() => {handleWitchPoison(false)}} color="primary" variant="outlined">
             { t('no') }
+            <CloseIcon />
           </Button>
           <Button disabled={(isUse || witchDeadNumber === null || isUsePoison)} onClick={() => {handleWitchPoison(true)}} color="primary" variant="contained">
             { t('yes') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
@@ -995,6 +1084,7 @@ const Game = (props) => {
         <DialogActions>
           <Button disabled={predictorSelect === null} onClick={() => {handlePredictor()}} color="primary" variant="contained">
             { t('confirm') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
@@ -1022,6 +1112,7 @@ const Game = (props) => {
         <DialogActions>
           <Button onClick={() => {handleCloseCheckRole()}} color="primary" variant="contained">
             { t('confirm') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
@@ -1037,14 +1128,15 @@ const Game = (props) => {
         <DialogTitle id="alert-dialog-title">{t('yesterday_dead')}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {
-              generateResultMessage()
-            }
+            <span className={classes.bad}>
+              { generateResultMessage() }
+            </span>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseResult} color="primary" variant="contained">
             { t('confirm') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
@@ -1066,9 +1158,11 @@ const Game = (props) => {
         <DialogActions>
           <Button onClick={() => { handleVote(false); }} color="primary" variant="outlined">
             { t('give_up') }
+            <CloseIcon />
           </Button>
           <Button onClick={() => { handleVote(true); }} color="primary" variant="contained">
             { t('confirm') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
@@ -1105,6 +1199,7 @@ const Game = (props) => {
         <DialogActions>
           <Button onClick={() => { handleGameOver(); }} color="primary" variant="contained">
             { t('confirm') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
@@ -1126,9 +1221,11 @@ const Game = (props) => {
         <DialogActions>
           <Button onClick={() => { handleShoot(false); }} color="primary" variant="outlined">
             { t('no') }
+            <CloseIcon />
           </Button>
           <Button onClick={() => { handleShoot(true); }} color="primary" variant="contained" disabled={hunterSelect === null}>
             { t('yes') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>
@@ -1156,6 +1253,7 @@ const Game = (props) => {
         <DialogActions>
           <Button onClick={() => { handleCloseHunter(); }} color="primary" variant="contained">
             { t('confirm') }
+            <CheckIcon />
           </Button>
         </DialogActions>
       </Dialog>

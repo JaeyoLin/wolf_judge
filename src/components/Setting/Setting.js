@@ -13,6 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 // import InputLabel from '@material-ui/core/InputLabel';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,6 +42,8 @@ const Setting = (props) => {
     isUseHunter,
     setIsUseHunter,
     handleStart,
+    isKillKind,
+    setIsKillKind,
   } = props;
 
   // console.log('wolfNumber', wolfNumber);
@@ -83,6 +86,21 @@ const Setting = (props) => {
       </div>
       <div>
         <FormControl component="fieldset" className={classes.formControl}>
+          <FormLabel component="legend">{t('is_kill_kind')}</FormLabel>
+          <RadioGroup
+            row
+            className={classes.group}
+            value={isKillKind}
+            onChange={(e) => {setIsKillKind((e.target.value === 'true'))}}
+          >
+            <FormControlLabel value={true} control={<Radio />} label={t('yes')} />
+            <FormControlLabel value={false} control={<Radio />} label={t('no')} />
+          </RadioGroup>
+        </FormControl>
+      </div>
+      <Divider />
+      <div>
+        <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">{t('predictor')}</FormLabel>
           <RadioGroup
             row
@@ -123,7 +141,8 @@ const Setting = (props) => {
           </RadioGroup>
         </FormControl>
       </div>
-      <Button style={{ marginBottom: '20px' }} onClick={handleStart} variant="contained" color="secondary">{t('finished')}</Button>
+      <Divider />
+      <Button style={{ marginTop: '20px', marginBottom: '20px' }} onClick={handleStart} variant="contained" color="secondary">{t('finished')}</Button>
     </>
   );
 };

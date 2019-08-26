@@ -48,5 +48,7 @@
   "cant_shoot": "You can't",
   "hunter_shoot_player": "Hunter shooted: {{index}}",
   "last_words": "Publish last words",
-  "to_night": "Close your eyes"
+  "to_night": "Close your eyes",
+  "is_kill_kind": "Kill kind",
+  "bad_win_kind": "Bad guy win"
 }

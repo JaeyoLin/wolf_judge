@@ -12,6 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 import wolf from '../../static/images/wolf.jpg';
 import predictor from '../../static/images/predictor.jpg';
@@ -134,7 +135,8 @@ const CheckRole = (props) => {
           )
         })
       }
-      <Button style={{ marginBottom: '20px' }} onClick={handleStartGame} variant="contained" color="secondary">{t('start')}</Button>
+      <Divider style={{ marginTop: '20px' }} />
+      <Button style={{ marginTop: '20px', marginBottom: '20px' }} onClick={handleStartGame} variant="contained" color="secondary">{t('start')}</Button>
     </>
   );
 };

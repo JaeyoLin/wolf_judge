@@ -85,6 +85,7 @@ const Home = (props) => {
   const [isUsePredictor, setIsUsePredictor] = useState(false);
   const [isUseWitch, setIsUseWitch] = useState(true);
   const [isUseHunter, setIsUseHunter] = useState(false);
+  const [isKillKind, setIsKillKind] = useState(false); // 屠邊局判斷
 
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const { t, i18n } = useTranslation();
@@ -280,6 +281,8 @@ const Home = (props) => {
                 isUseHunter={isUseHunter}
                 setIsUseHunter={setIsUseHunter}
                 handleStart={handleStart}
+                isKillKind={isKillKind}
+                setIsKillKind={setIsKillKind}
               />
             )
           }
@@ -300,6 +303,8 @@ const Home = (props) => {
                 isUseHunter={isUseHunter}
                 playerNumber={playerNumber}
                 wolfNumber={wolfNumber}
+                isKillKind={isKillKind}
+                setIsKillKind={setIsKillKind}
               />
             )
           }
