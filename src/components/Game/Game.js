@@ -60,7 +60,7 @@ import step20 from '../../static/audio/step_20.mp3'; // 天亮請睜眼
  * 是否開啟 console.log 資訊
  * 
  */
-const IS_DEBUG = false;
+const IS_DEBUG = true;
 
 /**
  * DAY_TYPE
@@ -170,6 +170,7 @@ const Game = (props) => {
   const [isWitchDead, setIsWitchDead] = useState(false); // 女巫是否死亡
   const [isHunterDead, setIsHunterDead] = useState(false); // 獵人是否死亡
   const [isOpenLastWords, setIsOpenLastWords] = useState(false); // 遺言視窗
+  const [isKnightDead, setIsKnightDead] = useState(false); //  騎士是否死亡
 
   const [isUseKnightSkill, setIsUseKnightSkill] = useState(false); // 騎士是否已實用技能
   const [isOpenKnight, setIsOpenKnight] = useState(false); // 開啟騎士選擇對象視窗
@@ -762,6 +763,12 @@ const Game = (props) => {
       }
     }
 
+    if (isUseKnight) {
+      if (dead.some(tmp => tmp.role.key === KNIGHT.key)) {
+        setIsKnightDead(true);
+      }
+    }
+
     if (IS_DEBUG) {
       console.log('dead', dead);
       console.log('wolfNumber', wolfNumber);
@@ -791,12 +798,19 @@ const Game = (props) => {
       console.log('playerNumber', playerNumber);
     }
 
-    if ((playerNumber - dead.length) <= (wolfNumber - deadWolf) * 2) {
+    if ((playerNumber - dead.length) === (wolfNumber - deadWolf)) {
       return {
         isFinished: true,
         message: t('bad_win'),
       }
     }
+
+    // if ((playerNumber - dead.length) <= (wolfNumber - deadWolf) * 2) {
+    //   return {
+    //     isFinished: true,
+    //     message: t('bad_win'),
+    //   }
+    // }
 
     // 判斷是否有屠邊局, 壞人是否屠邊成功
     if (IS_DEBUG) {
@@ -945,7 +959,6 @@ const Game = (props) => {
     setStep(17);
   }
 
-  // console.log('1111', list.find(role => role.role.key === PREDICTOR.key).index);
   const getWolfs = () => {
     //list.filter(role => role.role.key === WOLF.key)
     let wolfsInfo = '';
@@ -1273,7 +1286,7 @@ const Game = (props) => {
             { t('give_up') }
             <CloseIcon />
           </Button>
-          <Button onClick={() => { handleVote(true); }} color="primary" variant="contained">
+          <Button disabled={selectVote === null} onClick={() => { handleVote(true); }} color="primary" variant="contained">
             { t('confirm') }
             <CheckIcon />
           </Button>
