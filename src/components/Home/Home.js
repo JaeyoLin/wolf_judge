@@ -238,7 +238,7 @@ const Home = (props) => {
 
   return (
     <div style={{ height: '100vh' }}>
-      <Container maxWidth="sm" className={classes.container}>
+      <Container maxWidth={false} className={classes.container}>
         <Typography component="div" >
           <AppBar position="static">
             <Toolbar>
