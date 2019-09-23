@@ -60,7 +60,7 @@ import step20 from '../../static/audio/step_20.mp3'; // 天亮請睜眼
  * 是否開啟 console.log 資訊
  * 
  */
-const IS_DEBUG = true;
+const IS_DEBUG = false;
 
 /**
  * DAY_TYPE
