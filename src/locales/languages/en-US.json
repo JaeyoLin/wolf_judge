@@ -11,6 +11,7 @@
   "hunter": "Hunter",
   "villager": "Villager",
   "knight": "Knight",
+  "idiet": "Idiet",
   "yes": "Yes",
   "no": "No",
   "finished": "Finished",
@@ -55,5 +56,7 @@
   "knight_fight": "Kinght fight",
   "fight_result": "Fight Result",
   "no_is_wolf": "{{index}} is the wolf.",
-  "no_is_not_wolf": "{{index}} is not the wolf. Knight is dead."
+  "no_is_not_wolf": "{{index}} is not the wolf. Knight is dead.",
+  "idiet_result": "Idiet Result",
+  "no_is_idiet": "{{index}} is the idiet."
 }

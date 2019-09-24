@@ -28,6 +28,7 @@ import {
   WITCH,
   HUNTER,
   KNIGHT,
+  IDIET,
   VILLAGER,
 } from '../../constants/Role';
 import Setting from '../Setting/Setting';
@@ -87,6 +88,7 @@ const Home = (props) => {
   const [isUseWitch, setIsUseWitch] = useState(true);
   const [isUseHunter, setIsUseHunter] = useState(false);
   const [isUseKnight, setIsUseKnight] = useState(false);
+  const [isUseIdiet, setIsUseIdiet] = useState(false);
   const [isKillKind, setIsKillKind] = useState(false); // 屠邊局判斷
 
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
@@ -218,6 +220,25 @@ const Home = (props) => {
       };
     }
 
+    // 白癡位置
+    if (isUseIdiet) {
+      let index = null;
+
+      beginning: while(true) {
+        index = getRaddomIndex();
+        if(list[index] !== null) {
+          continue beginning;
+        } else {
+          break;
+        }
+      }
+
+      list[index] = {
+        index: index + 1,
+        role: IDIET,
+      };
+    }
+
     // 村民位置
     list.forEach((sit, index) => {
       if (sit === null) {
@@ -306,6 +327,8 @@ const Home = (props) => {
                 setIsKillKind={setIsKillKind}
                 isUseKnight={isUseKnight}
                 setIsUseKnight={setIsUseKnight}
+                isUseIdiet={isUseIdiet}
+                setIsUseIdiet={setIsUseIdiet}
               />
             )
           }
@@ -329,6 +352,8 @@ const Home = (props) => {
                 isKillKind={isKillKind}
                 setIsKillKind={setIsKillKind}
                 isUseKnight={isUseKnight}
+                isUseIdiet={isUseIdiet}
+                setIsUseIdiet={setIsUseIdiet}
               />
             )
           }

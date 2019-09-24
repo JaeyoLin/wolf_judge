@@ -31,6 +31,7 @@ import {
   WITCH,
   HUNTER,
   KNIGHT,
+  IDIET,
   VILLAGER,
 } from '../../constants/Role';
 
@@ -53,14 +54,16 @@ import step16 from '../../static/audio/step_16.mp3'; // 獵人請睜眼
 import step17 from '../../static/audio/step_17.mp3'; // 獵人請閉眼
 import step18 from '../../static/audio/step_18.mp3'; // 騎士請睜眼
 import step19 from '../../static/audio/step_19.mp3'; // 騎士請閉眼
-import step20 from '../../static/audio/step_20.mp3'; // 天亮請睜眼
+import step20 from '../../static/audio/step_20.mp3'; // 白癡請睜眼
+import step21 from '../../static/audio/step_21.mp3'; // 白癡請閉眼
+import step22 from '../../static/audio/step_22.mp3'; // 天亮請睜眼
 
 /**
  * IS_DEBUG
  * 是否開啟 console.log 資訊
  * 
  */
-const IS_DEBUG = false;
+const IS_DEBUG = true;
 
 /**
  * DAY_TYPE
@@ -94,16 +97,25 @@ const useStyles = makeStyles({
     margin: 10,
     color: '#fff',
     backgroundColor: '#4DB6AC',
+    width: '50px',
+    height: '50px',
   },
   pinkAvatar: {
     margin: 10,
     color: '#fff',
     backgroundColor: pink[500],
+    width: '50px',
+    height: '50px',
   },
   dead: {
     margin: 10,
     color: '#fff',
     backgroundColor: '#9E9E9E',
+    width: '50px',
+    height: '50px',
+  },
+  number: {
+    fontSize: '30px',
   },
   good: {
     fontSize: '30px',
@@ -130,6 +142,7 @@ const Game = (props) => {
     wolfNumber,
     isKillKind,
     isUseKnight,
+    isUseIdiet,
   } = props;
 
   if (IS_DEBUG) {
@@ -170,12 +183,15 @@ const Game = (props) => {
   const [isWitchDead, setIsWitchDead] = useState(false); // 女巫是否死亡
   const [isHunterDead, setIsHunterDead] = useState(false); // 獵人是否死亡
   const [isOpenLastWords, setIsOpenLastWords] = useState(false); // 遺言視窗
-  const [isKnightDead, setIsKnightDead] = useState(false); //  騎士是否死亡
+  const [isKnightDead, setIsKnightDead] = useState(false); // 騎士是否死亡
+  const [isIdietDead, setIsIdietDead] = useState(false); // 白癡是否死亡
 
   const [isUseKnightSkill, setIsUseKnightSkill] = useState(false); // 騎士是否已實用技能
   const [isOpenKnight, setIsOpenKnight] = useState(false); // 開啟騎士選擇對象視窗
   const [knightSelect, setKnightSelect] = useState(null); // 騎士選擇
   const [isOpenKnightResult, setIsOpenKnightResult] = useState(false); // 騎士驗人結果
+  const [isOpenIdietResult, setIsOpenIdietResult] = useState(false); // 放逐白癡結果
+  const [isUseIdietSkill, setIsUseIdietSkill] = useState(false); // 白癡是否使用技能
 
   // console.log('isKillByWitch', isKillByWitch);
   // console.log('isUsePoison', isUsePoison);
@@ -212,7 +228,11 @@ const Game = (props) => {
               if (isUseKnight) {
                 setStep(18);
               } else {
-                setStep(20);
+                if (isUseIdiet) {
+                  setStep(20);
+                } else {
+                  setStep(22);
+                }
               }
             }
           }
@@ -259,7 +279,11 @@ const Game = (props) => {
             if (isUseKnight) {
               setStep(18);
             } else {
-              setStep(20);
+              if (isUseIdiet) {
+                setStep(20);
+              } else {
+                setStep(22);
+              }
             }
           }
         }
@@ -293,7 +317,11 @@ const Game = (props) => {
           if (isUseKnight) {
             setStep(18);
           } else {
-            setStep(20);
+            if (isUseIdiet) {
+              setStep(20);
+            } else {
+              setStep(22);
+            }
           }
         }
         break;
@@ -310,16 +338,30 @@ const Game = (props) => {
         if (isUseKnight) {
           setStep(18);
         } else {
-          setStep(20);
+          if (isUseIdiet) {
+            setStep(20);
+          } else {
+            setStep(22);
+          }
         }
         break;
       case 18:
         setStep(19);
         break;
       case 19:
-        setStep(20);
+        if (isUseIdiet) {
+          setStep(20);
+        } else {
+          setStep(22);
+        }
         break;
       case 20:
+        setStep(21);
+        break;
+      case 21:
+          setStep(22);
+        break;
+      case 22:
         setIsOpenResult(true);
         break;
       default:
@@ -474,6 +516,12 @@ const Game = (props) => {
           break;
       case 20:
         returnSrc = step20;
+        break;
+      case 21:
+        returnSrc = step21;
+        break;
+      case 22:
+        returnSrc = step22;
         break;
       default:
         break;
@@ -646,11 +694,15 @@ const Game = (props) => {
                     {
                       (idDead) ? (
                         <Avatar className={classes.dead}>
-                          { sit.index }
+                          <span className={classes.number}>
+                            { sit.index }
+                          </span>
                         </Avatar>
                       ) : (
                         <Avatar className={className} onClick={() => {selectFunc(sit)}}>
-                          { sit.index }
+                          <span className={classes.number}>
+                            { sit.index }
+                          </span>
                         </Avatar>
                       )
                     }
@@ -679,37 +731,48 @@ const Game = (props) => {
     setIsOpenVote(false);
 
     if (isVote) {
-      const tmpDead = [
-        ...dead,
-        selectVote,
-      ]
-      if (isVote) {
-        setDead(tmpDead);
-  
+      // 判斷被放逐的是不是白癡
+      if (selectVote.role.key === IDIET.key && isUseIdietSkill === false) {
         setMessages([
           ...messages,
-          `${t('n_day', { day })}${selectVote.index}`,
+          `${t('n_day', { day })}${t('no_is_idiet', { index: selectVote.index })}, ${t('idiet_result')}`,
         ]);
+
+        setIsUseIdietSkill(true);
+        setIsOpenIdietResult(true);
       } else {
-        setMessages([
-          ...messages,
-          `${t('n_day', { day })}${t('give_up_vote')}`,
-        ]);
-      }
-  
-      const result = checkGameFinished(tmpDead);
-      if (result.isFinished) {
-        setIsOpenGameResult(true);
-        setGameResultMessage(result.message);
-      } else {
-        // 檢查獵人是否死亡
-        const isHunter = checkHunter(tmpDead);
-  
-        if (isHunter) {
-          setIsOpenHunter(true);
+        const tmpDead = [
+          ...dead,
+          selectVote,
+        ]
+        if (isVote) {
+          setDead(tmpDead);
+    
+          setMessages([
+            ...messages,
+            `${t('n_day', { day })}${selectVote.index}`,
+          ]);
         } else {
-          // initSelect(true);
-          setIsOpenLastWords(true);
+          setMessages([
+            ...messages,
+            `${t('n_day', { day })}${t('give_up_vote')}`,
+          ]);
+        }
+    
+        const result = checkGameFinished(tmpDead);
+        if (result.isFinished) {
+          setIsOpenGameResult(true);
+          setGameResultMessage(result.message);
+        } else {
+          // 檢查獵人是否死亡
+          const isHunter = checkHunter(tmpDead);
+    
+          if (isHunter) {
+            setIsOpenHunter(true);
+          } else {
+            // initSelect(true);
+            setIsOpenLastWords(true);
+          }
         }
       }
     } else {
@@ -766,6 +829,12 @@ const Game = (props) => {
     if (isUseKnight) {
       if (dead.some(tmp => tmp.role.key === KNIGHT.key)) {
         setIsKnightDead(true);
+      }
+    }
+    
+    if (isUseIdiet) {
+      if (dead.some(tmp => tmp.role.key === IDIET.key)) {
+        setIsIdietDead(true);
       }
     }
 
@@ -1052,6 +1121,16 @@ const Game = (props) => {
   }
 
   /**
+   * handleCloseIdiet
+   * 關閉白癡結果
+   * 
+   */
+  const handleCloseIdiet =() => {
+    setIsOpenIdietResult(false);
+    initSelect(true);
+  }
+
+  /**
    * React - render
    * 
    */
@@ -1321,6 +1400,9 @@ const Game = (props) => {
               {
                 (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
               }
+              {
+                (isUseIdiet) && (<li>{`${t('idiet')}: ${list.find(role => role.role.key === IDIET.key).index}`}</li>)
+              }
               <li>{`${t('villager')}: ${getVillages()}`}</li>
             </ul>
           </DialogContentText>
@@ -1465,6 +1547,34 @@ const Game = (props) => {
         </DialogActions>
       </Dialog>
       {/* Knight Result End */}
+
+      {/* Idiet Result Start */}
+      <Dialog
+        fullWidth
+        open={isOpenIdietResult}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{t('idiet_result')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {
+              (selectVote !== null) ? (
+                t('no_is_idiet', { index: selectVote.index })
+              ) : (
+                null
+              )
+            }
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {handleCloseIdiet()}} color="primary" variant="contained">
+            { t('to_night') }
+            <CheckIcon />
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Idiet Result End */}
     </>
   );
 };

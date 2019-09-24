@@ -33,6 +33,13 @@ export const KNIGHT = {
   src: 'knight.jpg',
 };
 
+export const IDIET = {
+  key: 'idiet',
+  isGood: true,
+  isGod: true,
+  src: 'idiet.jpg',
+};
+
 export const VILLAGER = {
   key: 'villager',
   isGood: true,
