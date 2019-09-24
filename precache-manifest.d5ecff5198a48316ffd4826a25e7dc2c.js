@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "ad4b5ffd77de93dece95e75807ade64a",
+    "revision": "4b52abc9a3f63553d537612cc2c4e127",
     "url": "/wolf_judge/index.html"
   },
   {
-    "revision": "6b52aedec3c9c9c212cd",
+    "revision": "fa4907d51c408b0893df",
     "url": "/wolf_judge/static/css/main.c481ef37.chunk.css"
   },
   {
-    "revision": "801881634ddaf1d1a0d5",
-    "url": "/wolf_judge/static/js/2.0907aec7.chunk.js"
+    "revision": "70007cc86c3cc8212425",
+    "url": "/wolf_judge/static/js/2.0a561b22.chunk.js"
   },
   {
-    "revision": "6b52aedec3c9c9c212cd",
-    "url": "/wolf_judge/static/js/main.d627df84.chunk.js"
+    "revision": "fa4907d51c408b0893df",
+    "url": "/wolf_judge/static/js/main.d45cdbe2.chunk.js"
   },
   {
     "revision": "d718bb2690348fd71462",
@@ -22,6 +22,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "5cf4e8f1e6889192e34af924b322f224",
     "url": "/wolf_judge/static/media/hunter.5cf4e8f1.jpg"
+  },
+  {
+    "revision": "4beb90c177ba0ae7842d13b18582d7c1",
+    "url": "/wolf_judge/static/media/idiet.4beb90c1.jpg"
   },
   {
     "revision": "998fe9ac3100bd09061d90b9b06c3ec1",
@@ -80,8 +84,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/wolf_judge/static/media/step_2.264c120e.mp3"
   },
   {
+    "revision": "6c44e2a0c4df348741ba30e9261590ef",
+    "url": "/wolf_judge/static/media/step_20.6c44e2a0.mp3"
+  },
+  {
+    "revision": "05bbb86fcca3ba8673c267cdb19332a3",
+    "url": "/wolf_judge/static/media/step_21.05bbb86f.mp3"
+  },
+  {
     "revision": "a7d9ef5f0acbc4b5dc0c5f771ffba06a",
-    "url": "/wolf_judge/static/media/step_20.a7d9ef5f.mp3"
+    "url": "/wolf_judge/static/media/step_22.a7d9ef5f.mp3"
   },
   {
     "revision": "3f6f4aa3d8273c38b432938e5ad3f8f6",
