@@ -1,4 +1,7 @@
 {
+  "terminal.external.osxExec": "iTerm.app",
+  "terminal.integrated.fontFamily": "Source Code Pro for Powerline",
+  "terminal.integrated.fontSize": 14,
   "editor.tokenColorCustomizations": {
     "[Material Theme Darker High Contrast]": {
       "comments": "#229977",
@@ -12,4 +15,7 @@
   "colorize.languages": [
     "javascript",
   ],
+  "editor.minimap.enabled": false,
+  "editor.fontSize": 14,
+  "editor.renderWhitespace": "all"
 }

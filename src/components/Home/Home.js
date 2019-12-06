@@ -8,7 +8,6 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-// import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Select from '@material-ui/core/Select';
@@ -18,8 +17,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
-// import AutorenewIcon from '@material-ui/icons/Autorenew';
 import CachedIcon from '@material-ui/icons/Cached';
 
 import {
@@ -97,8 +94,6 @@ const Home = (props) => {
 
   const handleChange = (value) => {
     i18n.changeLanguage(value);
-    // console.log('value', value);
-    // setLanguage(value);
   }
 
   const toggleDrawer = (isOpen) => event => {
@@ -109,14 +104,8 @@ const Home = (props) => {
   };
 
   const handleRestart = () => {
-    // window.location.href = '/';
     window.location.reload();
-    // setIsOpenDrawer(false);
   }
-
-  // const handleReSetting = () => {
-  //   setIsOpenDrawer(false);
-  // }
 
   const getRaddomIndex = () => {
     return Math.floor(Math.random() * playerNumber);

@@ -1,5 +1,4 @@
 import React, {
-  // useEffect,
   useState,
   useMemo,
   useCallback,
@@ -12,16 +11,16 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-// import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  // green,
   pink,
 } from '@material-ui/core/colors';
 import Divider from '@material-ui/core/Divider';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 import { useTranslation } from "react-i18next";
 
@@ -192,6 +191,8 @@ const Game = (props) => {
   const [isOpenKnightResult, setIsOpenKnightResult] = useState(false); // 騎士驗人結果
   const [isOpenIdietResult, setIsOpenIdietResult] = useState(false); // 放逐白癡結果
   const [isUseIdietSkill, setIsUseIdietSkill] = useState(false); // 白癡是否使用技能
+
+  const [isShowMessage, setIsShowMessage] = useState(false); // 是否顯示夜晚訊息
 
   // console.log('isKillByWitch', isKillByWitch);
   // console.log('isUsePoison', isUsePoison);
@@ -993,6 +994,7 @@ const Game = (props) => {
     setIsUse(false);
     setHunterSelect(null); // 獵人選擇
     setKnightSelect(null); // 騎士選擇
+    setIsShowMessage(false);
 
     if (isNextDay) {
       // 進入下一天
@@ -1332,11 +1334,26 @@ const Game = (props) => {
       >
         <DialogTitle id="alert-dialog-title">{t('yesterday_dead')}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <span className={classes.bad}>
-              { generateResultMessage() }
-            </span>
-          </DialogContentText>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isShowMessage} 
+                onChange={(e) => {
+                  setIsShowMessage(e.target.checked);
+                }}
+              />
+            }
+            label={t('is_show_message')}
+          />
+          {
+            (isShowMessage) && (
+              <DialogContentText id="alert-dialog-description">
+                <span className={classes.bad}>
+                  { generateResultMessage() }
+                </span>
+              </DialogContentText>
+            )
+          }
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseResult} color="primary" variant="contained">
