@@ -46,6 +46,8 @@ const Setting = (props) => {
     setIsUseKnight,
     isUseIdiet,
     setIsUseIdiet,
+    isMirror,
+    setIsMirror,
   } = props;
 
   return (
@@ -162,6 +164,20 @@ const Setting = (props) => {
             native
             value={isUseIdiet}
             onChange={(e) => {setIsUseIdiet(e.target.value === 'true')}}
+          >
+            <option value={true}>{t('yes')}</option>
+            <option value={false}>{t('no')}</option>
+          </NativeSelect>
+        </FormControl>
+      </div>
+
+      <div>
+        <FormControl className={classes.formControl}>
+          <InputLabel htmlFor="age-native-simple">{t('is_mirror')}</InputLabel>
+          <NativeSelect
+            native
+            value={isMirror}
+            onChange={(e) => {setIsMirror(e.target.value === 'true')}}
           >
             <option value={true}>{t('yes')}</option>
             <option value={false}>{t('no')}</option>

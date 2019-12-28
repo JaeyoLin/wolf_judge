@@ -142,6 +142,7 @@ const Game = (props) => {
     isKillKind,
     isUseKnight,
     isUseIdiet,
+    isMirror,
   } = props;
 
   if (IS_DEBUG) {
@@ -1187,18 +1188,38 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('wolf_kill')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            { generateSelectPicker(WOLF.key) }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseWolfKill} color="primary" disabled={deadNumber === null} variant="contained">
-            { t('confirm') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('wolf_kill')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  { generateSelectPicker(WOLF.key) }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseWolfKill} color="primary" disabled={deadNumber === null} variant="contained">
+                  { t('confirm') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('wolf_kill')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              { generateSelectPicker(WOLF.key) }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseWolfKill} color="primary" disabled={deadNumber === null} variant="contained">
+              { t('confirm') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       { /* Wolf Kill End */ }
 
@@ -1210,30 +1231,62 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('witch_save')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {
-              (isUseSave) ? (
-                <span className={classes.good}>{t('save_used')}</span>
-              ) : (
-                <span className={classes.good}>
-                  { t('dead_person', { index: (deadNumber) ? deadNumber.index : null }) }
-                </span>
-              )
-            }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => {handleWitchSave(false)}} color="primary" variant="outlined">
-            { t('no') }
-            <CloseIcon />
-          </Button>
-          <Button onClick={() => {handleWitchSave(true)}} color="primary" variant="contained" disabled={isUseSave}>
-            { t('yes') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('witch_save')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  {
+                    (isUseSave) ? (
+                      <span className={classes.good}>{t('save_used')}</span>
+                    ) : (
+                      <span className={classes.good}>
+                        { t('dead_person', { index: (deadNumber) ? deadNumber.index : null }) }
+                      </span>
+                    )
+                  }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => {handleWitchSave(false)}} color="primary" variant="outlined">
+                  { t('no') }
+                  <CloseIcon />
+                </Button>
+                <Button onClick={() => {handleWitchSave(true)}} color="primary" variant="contained" disabled={isUseSave}>
+                  { t('yes') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('witch_save')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {
+                (isUseSave) ? (
+                  <span className={classes.good}>{t('save_used')}</span>
+                ) : (
+                  <span className={classes.good}>
+                    { t('dead_person', { index: (deadNumber) ? deadNumber.index : null }) }
+                  </span>
+                )
+              }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => {handleWitchSave(false)}} color="primary" variant="outlined">
+              { t('no') }
+              <CloseIcon />
+            </Button>
+            <Button onClick={() => {handleWitchSave(true)}} color="primary" variant="contained" disabled={isUseSave}>
+              { t('yes') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       { /* Witch Save End */ }
 
@@ -1244,34 +1297,70 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('witch_poison')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            { 
-              (isUsePoison) ? (
-                // 你已使用毒藥
-                <span className={classes.good}>{t('poison_used')}</span>
-              ) : (
-                (isUse) ? (
-                  // 此回合已使用解藥, 不能使用毒藥
-                  <span className={classes.good}>{t('is_use_save')}</span>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('witch_poison')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  { 
+                    (isUsePoison) ? (
+                      // 你已使用毒藥
+                      <span className={classes.good}>{t('poison_used')}</span>
+                    ) : (
+                      (isUse) ? (
+                        // 此回合已使用解藥, 不能使用毒藥
+                        <span className={classes.good}>{t('is_use_save')}</span>
+                      ) : (
+                        generateSelectPicker(WITCH.key)
+                      )
+                    )
+                  }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => {handleWitchPoison(false)}} color="primary" variant="outlined">
+                  { t('no') }
+                  <CloseIcon />
+                </Button>
+                <Button disabled={(isUse || witchDeadNumber === null || isUsePoison)} onClick={() => {handleWitchPoison(true)}} color="primary" variant="contained">
+                  { t('yes') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('witch_poison')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              { 
+                (isUsePoison) ? (
+                  // 你已使用毒藥
+                  <span className={classes.good}>{t('poison_used')}</span>
                 ) : (
-                  generateSelectPicker(WITCH.key)
+                  (isUse) ? (
+                    // 此回合已使用解藥, 不能使用毒藥
+                    <span className={classes.good}>{t('is_use_save')}</span>
+                  ) : (
+                    generateSelectPicker(WITCH.key)
+                  )
                 )
-              )
-            }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => {handleWitchPoison(false)}} color="primary" variant="outlined">
-            { t('no') }
-            <CloseIcon />
-          </Button>
-          <Button disabled={(isUse || witchDeadNumber === null || isUsePoison)} onClick={() => {handleWitchPoison(true)}} color="primary" variant="contained">
-            { t('yes') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+              }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => {handleWitchPoison(false)}} color="primary" variant="outlined">
+              { t('no') }
+              <CloseIcon />
+            </Button>
+            <Button disabled={(isUse || witchDeadNumber === null || isUsePoison)} onClick={() => {handleWitchPoison(true)}} color="primary" variant="contained">
+              { t('yes') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       {/* Witch Poison End */}
 
@@ -1282,18 +1371,38 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('predictor_select')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            { generateSelectPicker(PREDICTOR.key) }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button disabled={predictorSelect === null} onClick={() => {handlePredictor()}} color="primary" variant="contained">
-            { t('confirm') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('predictor_select')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  { generateSelectPicker(PREDICTOR.key) }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button disabled={predictorSelect === null} onClick={() => {handlePredictor()}} color="primary" variant="contained">
+                  { t('confirm') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('predictor_select')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              { generateSelectPicker(PREDICTOR.key) }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button disabled={predictorSelect === null} onClick={() => {handlePredictor()}} color="primary" variant="contained">
+              { t('confirm') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       {/* Predictor End */}
 
@@ -1304,24 +1413,50 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('role_result')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {
-              (predictorSelect && predictorSelect.role.key === 'wolf') ? (
-                <span className={classes.bad}>{t('is_wolf')}</span>
-              ) : (
-                <span className={classes.good}>{t('not_wolf')}</span>
-              )
-            }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => {handleCloseCheckRole()}} color="primary" variant="contained">
-            { t('confirm') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('role_result')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  {
+                    (predictorSelect && predictorSelect.role.key === 'wolf') ? (
+                      <span className={classes.bad}>{t('is_wolf')}</span>
+                    ) : (
+                      <span className={classes.good}>{t('not_wolf')}</span>
+                    )
+                  }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => {handleCloseCheckRole()}} color="primary" variant="contained">
+                  { t('confirm') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('role_result')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {
+                (predictorSelect && predictorSelect.role.key === 'wolf') ? (
+                  <span className={classes.bad}>{t('is_wolf')}</span>
+                ) : (
+                  <span className={classes.good}>{t('not_wolf')}</span>
+                )
+              }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => {handleCloseCheckRole()}} color="primary" variant="contained">
+              { t('confirm') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       {/* Check Role End */}
 
@@ -1332,35 +1467,72 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('yesterday_dead')}</DialogTitle>
-        <DialogContent>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={isShowMessage} 
-                onChange={(e) => {
-                  setIsShowMessage(e.target.checked);
-                }}
-              />
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('yesterday_dead')}</DialogTitle>
+              <DialogContent>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={isShowMessage} 
+                      onChange={(e) => {
+                        setIsShowMessage(e.target.checked);
+                      }}
+                    />
+                  }
+                  label={t('is_show_message')}
+                />
+                {
+                  (isShowMessage) && (
+                    <DialogContentText id="alert-dialog-description">
+                      <span className={classes.bad}>
+                        { generateResultMessage() }
+                      </span>
+                    </DialogContentText>
+                  )
+                }
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseResult} color="primary" variant="contained">
+                  { t('confirm') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('yesterday_dead')}</DialogTitle>
+          <DialogContent>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={isShowMessage} 
+                  onChange={(e) => {
+                    setIsShowMessage(e.target.checked);
+                  }}
+                />
+              }
+              label={t('is_show_message')}
+            />
+            {
+              (isShowMessage) && (
+                <DialogContentText id="alert-dialog-description">
+                  <span className={classes.bad}>
+                    { generateResultMessage() }
+                  </span>
+                </DialogContentText>
+              )
             }
-            label={t('is_show_message')}
-          />
-          {
-            (isShowMessage) && (
-              <DialogContentText id="alert-dialog-description">
-                <span className={classes.bad}>
-                  { generateResultMessage() }
-                </span>
-              </DialogContentText>
-            )
-          }
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseResult} color="primary" variant="contained">
-            { t('confirm') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseResult} color="primary" variant="contained">
+              { t('confirm') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       {/* Result End*/}
 
@@ -1371,22 +1543,46 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('start_vote')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            { generateSelectPicker('') }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => { handleVote(false); }} color="primary" variant="outlined">
-            { t('give_up') }
-            <CloseIcon />
-          </Button>
-          <Button disabled={selectVote === null} onClick={() => { handleVote(true); }} color="primary" variant="contained">
-            { t('confirm') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('start_vote')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  { generateSelectPicker('') }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => { handleVote(false); }} color="primary" variant="outlined">
+                  { t('give_up') }
+                  <CloseIcon />
+                </Button>
+                <Button disabled={selectVote === null} onClick={() => { handleVote(true); }} color="primary" variant="contained">
+                  { t('confirm') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('start_vote')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              { generateSelectPicker('') }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => { handleVote(false); }} color="primary" variant="outlined">
+              { t('give_up') }
+              <CloseIcon />
+            </Button>
+            <Button disabled={selectVote === null} onClick={() => { handleVote(true); }} color="primary" variant="contained">
+              { t('confirm') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       { /* Vote End */ }
 
@@ -1397,39 +1593,80 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('game_over')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            { 
-              <span className={classes.good}>{gameResultMessage}</span>
-            }
-            <ul>
-              <li>{`${t('wolf')}: ${getWolfs()}`}</li>
-              {
-                (isUsePredictor) && (<li>{`${t('predictor')}: ${list.find(role => role.role.key === PREDICTOR.key).index}`}</li>)
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('game_over')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  { 
+                    <span className={classes.good}>{gameResultMessage}</span>
+                  }
+                  <ul>
+                    <li>{`${t('wolf')}: ${getWolfs()}`}</li>
+                    {
+                      (isUsePredictor) && (<li>{`${t('predictor')}: ${list.find(role => role.role.key === PREDICTOR.key).index}`}</li>)
+                    }
+                    {
+                      (isUseWitch) && (<li>{`${t('witch')}: ${list.find(role => role.role.key === WITCH.key).index}`}</li>)
+                    }
+                    {
+                      (isUseHunter) && (<li>{`${t('hunter')}: ${list.find(role => role.role.key === HUNTER.key).index}`}</li>)
+                    }
+                    {
+                      (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
+                    }
+                    {
+                      (isUseIdiet) && (<li>{`${t('idiet')}: ${list.find(role => role.role.key === IDIET.key).index}`}</li>)
+                    }
+                    <li>{`${t('villager')}: ${getVillages()}`}</li>
+                  </ul>
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => { handleGameOver(); }} color="primary" variant="contained">
+                  { t('confirm') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('game_over')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              { 
+                <span className={classes.good}>{gameResultMessage}</span>
               }
-              {
-                (isUseWitch) && (<li>{`${t('witch')}: ${list.find(role => role.role.key === WITCH.key).index}`}</li>)
-              }
-              {
-                (isUseHunter) && (<li>{`${t('hunter')}: ${list.find(role => role.role.key === HUNTER.key).index}`}</li>)
-              }
-              {
-                (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
-              }
-              {
-                (isUseIdiet) && (<li>{`${t('idiet')}: ${list.find(role => role.role.key === IDIET.key).index}`}</li>)
-              }
-              <li>{`${t('villager')}: ${getVillages()}`}</li>
-            </ul>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => { handleGameOver(); }} color="primary" variant="contained">
-            { t('confirm') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+              <ul>
+                <li>{`${t('wolf')}: ${getWolfs()}`}</li>
+                {
+                  (isUsePredictor) && (<li>{`${t('predictor')}: ${list.find(role => role.role.key === PREDICTOR.key).index}`}</li>)
+                }
+                {
+                  (isUseWitch) && (<li>{`${t('witch')}: ${list.find(role => role.role.key === WITCH.key).index}`}</li>)
+                }
+                {
+                  (isUseHunter) && (<li>{`${t('hunter')}: ${list.find(role => role.role.key === HUNTER.key).index}`}</li>)
+                }
+                {
+                  (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
+                }
+                {
+                  (isUseIdiet) && (<li>{`${t('idiet')}: ${list.find(role => role.role.key === IDIET.key).index}`}</li>)
+                }
+                <li>{`${t('villager')}: ${getVillages()}`}</li>
+              </ul>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => { handleGameOver(); }} color="primary" variant="contained">
+              { t('confirm') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       { /* Game Result End */ }
 
@@ -1440,22 +1677,46 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('huner_shoot')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-          { generateSelectPicker(HUNTER.key) }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => { handleShoot(false); }} color="primary" variant="outlined">
-            { t('no') }
-            <CloseIcon />
-          </Button>
-          <Button onClick={() => { handleShoot(true); }} color="primary" variant="contained" disabled={hunterSelect === null}>
-            { t('yes') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('huner_shoot')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                { generateSelectPicker(HUNTER.key) }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => { handleShoot(false); }} color="primary" variant="outlined">
+                  { t('no') }
+                  <CloseIcon />
+                </Button>
+                <Button onClick={() => { handleShoot(true); }} color="primary" variant="contained" disabled={hunterSelect === null}>
+                  { t('yes') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('huner_shoot')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+            { generateSelectPicker(HUNTER.key) }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => { handleShoot(false); }} color="primary" variant="outlined">
+              { t('no') }
+              <CloseIcon />
+            </Button>
+            <Button onClick={() => { handleShoot(true); }} color="primary" variant="contained" disabled={hunterSelect === null}>
+              { t('yes') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       { /* Hunter Select End */ }
 
@@ -1466,24 +1727,50 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('could_shoot')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {
-              (isKillByWitch) ? (
-                <span className={classes.bad}>{t('cant_shoot')}</span>
-              ) : (
-                <span className={classes.good}>{t('can_shoot')}</span>
-              )
-            }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => { handleCloseHunter(); }} color="primary" variant="contained">
-            { t('confirm') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('could_shoot')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  {
+                    (isKillByWitch) ? (
+                      <span className={classes.bad}>{t('cant_shoot')}</span>
+                    ) : (
+                      <span className={classes.good}>{t('can_shoot')}</span>
+                    )
+                  }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => { handleCloseHunter(); }} color="primary" variant="contained">
+                  { t('confirm') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('could_shoot')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {
+                (isKillByWitch) ? (
+                  <span className={classes.bad}>{t('cant_shoot')}</span>
+                ) : (
+                  <span className={classes.good}>{t('can_shoot')}</span>
+                )
+              }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => { handleCloseHunter(); }} color="primary" variant="contained">
+              { t('confirm') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       {/* Hunter Could Shoot End */}
 
@@ -1494,17 +1781,36 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('last_words')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            ...
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => { handleCloseLastWords(); }} color="primary" variant="contained">
-            { t('to_night') }
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('last_words')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  ...
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => { handleCloseLastWords(); }} color="primary" variant="contained">
+                  { t('to_night') }
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('last_words')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              ...
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => { handleCloseLastWords(); }} color="primary" variant="contained">
+              { t('to_night') }
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       {/* Last Words End */}
 
@@ -1515,21 +1821,44 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('knight_fight')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {
-              (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
-            }
-            { generateSelectPicker(KNIGHT.key) }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button disabled={knightSelect === null} onClick={() => {handleFight()}} color="primary" variant="contained">
-            { t('confirm') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('knight_fight')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  {
+                    (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
+                  }
+                  { generateSelectPicker(KNIGHT.key) }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button disabled={knightSelect === null} onClick={() => {handleFight()}} color="primary" variant="contained">
+                  { t('confirm') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('knight_fight')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {
+                (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
+              }
+              { generateSelectPicker(KNIGHT.key) }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button disabled={knightSelect === null} onClick={() => {handleFight()}} color="primary" variant="contained">
+              { t('confirm') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       {/* Knight End */}
 
@@ -1540,28 +1869,58 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('fight_result')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {
-              (knightSelect !== null) ? (
-                (knightSelect.role.key === WOLF.key) ? (
-                  <span className={classes.bad}>{t('no_is_wolf', { index: knightSelect.index })}</span>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('fight_result')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  {
+                    (knightSelect !== null) ? (
+                      (knightSelect.role.key === WOLF.key) ? (
+                        <span className={classes.bad}>{t('no_is_wolf', { index: knightSelect.index })}</span>
+                      ) : (
+                        <span className={classes.good}>{t('no_is_not_wolf', { index: knightSelect.index })}</span>
+                      )
+                    ) : (
+                      null
+                    )
+                  }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => {handleCloseFight()}} color="primary" variant="contained">
+                  { t('to_night') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('fight_result')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {
+                (knightSelect !== null) ? (
+                  (knightSelect.role.key === WOLF.key) ? (
+                    <span className={classes.bad}>{t('no_is_wolf', { index: knightSelect.index })}</span>
+                  ) : (
+                    <span className={classes.good}>{t('no_is_not_wolf', { index: knightSelect.index })}</span>
+                  )
                 ) : (
-                  <span className={classes.good}>{t('no_is_not_wolf', { index: knightSelect.index })}</span>
+                  null
                 )
-              ) : (
-                null
-              )
-            }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => {handleCloseFight()}} color="primary" variant="contained">
-            { t('to_night') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+              }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => {handleCloseFight()}} color="primary" variant="contained">
+              { t('to_night') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       {/* Knight Result End */}
 
@@ -1572,24 +1931,50 @@ const Game = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{t('idiet_result')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {
-              (selectVote !== null) ? (
-                t('no_is_idiet', { index: selectVote.index })
-              ) : (
-                null
-              )
-            }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => {handleCloseIdiet()}} color="primary" variant="contained">
-            { t('to_night') }
-            <CheckIcon />
-          </Button>
-        </DialogActions>
+        {
+          (isMirror) && (
+            <div style={{ transform: 'rotate(180deg)' }}>
+              <DialogTitle id="alert-dialog-title">{t('idiet_result')}</DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  {
+                    (selectVote !== null) ? (
+                      t('no_is_idiet', { index: selectVote.index })
+                    ) : (
+                      null
+                    )
+                  }
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => {handleCloseIdiet()}} color="primary" variant="contained">
+                  { t('to_night') }
+                  <CheckIcon />
+                </Button>
+              </DialogActions>
+            </div>
+          )
+        }
+        <div>
+          <DialogTitle id="alert-dialog-title">{t('idiet_result')}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {
+                (selectVote !== null) ? (
+                  t('no_is_idiet', { index: selectVote.index })
+                ) : (
+                  null
+                )
+              }
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => {handleCloseIdiet()}} color="primary" variant="contained">
+              { t('to_night') }
+              <CheckIcon />
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
       {/* Idiet Result End */}
     </>

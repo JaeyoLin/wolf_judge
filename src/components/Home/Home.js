@@ -87,6 +87,7 @@ const Home = (props) => {
   const [isUseKnight, setIsUseKnight] = useState(false);
   const [isUseIdiet, setIsUseIdiet] = useState(false);
   const [isKillKind, setIsKillKind] = useState(false); // 屠邊局判斷
+  const [isMirror, setIsMirror] = useState(true); // modal 是否開啟鏡像
 
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const { t, i18n } = useTranslation();
@@ -318,6 +319,8 @@ const Home = (props) => {
                 setIsUseKnight={setIsUseKnight}
                 isUseIdiet={isUseIdiet}
                 setIsUseIdiet={setIsUseIdiet}
+                isMirror={isMirror}
+                setIsMirror={setIsMirror}
               />
             )
           }
@@ -343,6 +346,7 @@ const Home = (props) => {
                 isUseKnight={isUseKnight}
                 isUseIdiet={isUseIdiet}
                 setIsUseIdiet={setIsUseIdiet}
+                isMirror={isMirror}
               />
             )
           }
