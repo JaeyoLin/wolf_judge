@@ -93,28 +93,28 @@ const AudioSound = React.memo((props) => {
 
 const useStyles = makeStyles({
   avatar: {
-    margin: 10,
+    margin: 7,
     color: '#fff',
     backgroundColor: '#4DB6AC',
-    width: '50px',
-    height: '50px',
+    width: '40px',
+    height: '40px',
   },
   pinkAvatar: {
-    margin: 10,
+    margin: 7,
     color: '#fff',
     backgroundColor: pink[500],
-    width: '50px',
-    height: '50px',
+    width: '40px',
+    height: '40px',
   },
   dead: {
-    margin: 10,
+    margin: 7,
     color: '#fff',
     backgroundColor: '#9E9E9E',
-    width: '50px',
-    height: '50px',
+    width: '40px',
+    height: '40px',
   },
   number: {
-    fontSize: '30px',
+    fontSize: '25px',
   },
   good: {
     fontSize: '30px',
@@ -675,44 +675,40 @@ const Game = (props) => {
     }
 
     returnComp = (
-      <Grid container justify="center" alignItems="center">
+      <Grid container alignItems="center">
         {
-          <Grid container justify="center" alignItems="center">
-            {
-              list.map(sit => {
-                let className = classes.avatar;
+          list.map(sit => {
+            let className = classes.avatar;
 
-                if (selectValue) {
-                  if (selectValue.index === sit.index) {
-                    className = classes.pinkAvatar;
-                  };
-                }
-
-                // 判斷該玩家是否死亡
-                const idDead = dead.some(tmp => tmp.index === sit.index);
-
-                return (
-                  <>
-                    {
-                      (idDead) ? (
-                        <Avatar className={classes.dead}>
-                          <span className={classes.number}>
-                            { sit.index }
-                          </span>
-                        </Avatar>
-                      ) : (
-                        <Avatar className={className} onClick={() => {selectFunc(sit)}}>
-                          <span className={classes.number}>
-                            { sit.index }
-                          </span>
-                        </Avatar>
-                      )
-                    }
-                  </>
-                );
-              })
+            if (selectValue) {
+              if (selectValue.index === sit.index) {
+                className = classes.pinkAvatar;
+              };
             }
-          </Grid>
+
+            // 判斷該玩家是否死亡
+            const idDead = dead.some(tmp => tmp.index === sit.index);
+
+            return (
+              <>
+                {
+                  (idDead) ? (
+                    <Avatar className={classes.dead}>
+                      <span className={classes.number}>
+                        { sit.index }
+                      </span>
+                    </Avatar>
+                  ) : (
+                    <Avatar className={className} onClick={() => {selectFunc(sit)}}>
+                      <span className={classes.number}>
+                        { sit.index }
+                      </span>
+                    </Avatar>
+                  )
+                }
+              </>
+            );
+          })
         }
       </Grid>
     );
@@ -1190,7 +1186,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('wolf_kill')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1233,7 +1229,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('witch_save')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1299,7 +1295,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('witch_poison')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1373,7 +1369,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('predictor_select')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1415,7 +1411,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('role_result')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1469,7 +1465,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('yesterday_dead')}</DialogTitle>
               <DialogContent>
                 <FormControlLabel
@@ -1545,7 +1541,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('start_vote')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1595,7 +1591,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('game_over')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1679,7 +1675,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('huner_shoot')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1729,7 +1725,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('could_shoot')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1783,7 +1779,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('last_words')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1823,7 +1819,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('knight_fight')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1871,7 +1867,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('fight_result')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
@@ -1933,7 +1929,7 @@ const Game = (props) => {
       >
         {
           (isMirror) && (
-            <div style={{ transform: 'rotate(180deg)' }}>
+            <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
               <DialogTitle id="alert-dialog-title">{t('idiet_result')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
