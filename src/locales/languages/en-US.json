@@ -11,7 +11,7 @@
   "hunter": "Hunter",
   "villager": "Villager",
   "knight": "Knight",
-  "idiet": "Idiet",
+  "idiot": "idiot",
   "yes": "Yes",
   "no": "No",
   "finished": "Finished",
@@ -44,7 +44,7 @@
   "game_over": "Game Over",
   "good_win": "Good guy win",
   "bad_win": "Bad guy win",
-  "huner_shoot": "Shoot",
+  "hunter_shoot": "Shoot",
   "could_shoot": "Can you shoot?",
   "can_shoot": "You can",
   "cant_shoot": "You can't",
@@ -57,8 +57,8 @@
   "fight_result": "Fight Result",
   "no_is_wolf": "{{index}} is the wolf.",
   "no_is_not_wolf": "{{index}} is not the wolf. Knight is dead.",
-  "idiet_result": "Idiet Result",
-  "no_is_idiet": "{{index}} is the idiet.",
+  "idiot_result": "idiot Result",
+  "no_is_idiot": "{{index}} is the idiot.",
   "is_show_message": "Is show messages?",
   "is_mirror": "Is mirror?"
 }

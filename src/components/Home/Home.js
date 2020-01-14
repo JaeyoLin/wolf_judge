@@ -25,7 +25,7 @@ import {
   WITCH,
   HUNTER,
   KNIGHT,
-  IDIET,
+  idiot,
   VILLAGER,
 } from '../../constants/Role';
 import Setting from '../Setting/Setting';
@@ -85,7 +85,7 @@ const Home = (props) => {
   const [isUseWitch, setIsUseWitch] = useState(true);
   const [isUseHunter, setIsUseHunter] = useState(false);
   const [isUseKnight, setIsUseKnight] = useState(false);
-  const [isUseIdiet, setIsUseIdiet] = useState(false);
+  const [isUseidiot, setIsUseidiot] = useState(false);
   const [isKillKind, setIsKillKind] = useState(false); // 屠邊局判斷
   const [isMirror, setIsMirror] = useState(true); // modal 是否開啟鏡像
 
@@ -211,7 +211,7 @@ const Home = (props) => {
     }
 
     // 白癡位置
-    if (isUseIdiet) {
+    if (isUseidiot) {
       let index = null;
 
       beginning: while(true) {
@@ -225,7 +225,7 @@ const Home = (props) => {
 
       list[index] = {
         index: index + 1,
-        role: IDIET,
+        role: idiot,
       };
     }
 
@@ -317,8 +317,8 @@ const Home = (props) => {
                 setIsKillKind={setIsKillKind}
                 isUseKnight={isUseKnight}
                 setIsUseKnight={setIsUseKnight}
-                isUseIdiet={isUseIdiet}
-                setIsUseIdiet={setIsUseIdiet}
+                isUseidiot={isUseidiot}
+                setIsUseidiot={setIsUseidiot}
                 isMirror={isMirror}
                 setIsMirror={setIsMirror}
               />
@@ -344,8 +344,8 @@ const Home = (props) => {
                 isKillKind={isKillKind}
                 setIsKillKind={setIsKillKind}
                 isUseKnight={isUseKnight}
-                isUseIdiet={isUseIdiet}
-                setIsUseIdiet={setIsUseIdiet}
+                isUseidiot={isUseidiot}
+                setIsUseidiot={setIsUseidiot}
                 isMirror={isMirror}
               />
             )

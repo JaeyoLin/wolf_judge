@@ -44,8 +44,8 @@ const Setting = (props) => {
     setIsKillKind,
     isUseKnight,
     setIsUseKnight,
-    isUseIdiet,
-    setIsUseIdiet,
+    isUseidiot,
+    setIsUseidiot,
     isMirror,
     setIsMirror,
   } = props;
@@ -159,11 +159,11 @@ const Setting = (props) => {
 
       <div>
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="age-native-simple">{t('idiet')}</InputLabel>
+          <InputLabel htmlFor="age-native-simple">{t('idiot')}</InputLabel>
           <NativeSelect
             native
-            value={isUseIdiet}
-            onChange={(e) => {setIsUseIdiet(e.target.value === 'true')}}
+            value={isUseidiot}
+            onChange={(e) => {setIsUseidiot(e.target.value === 'true')}}
           >
             <option value={true}>{t('yes')}</option>
             <option value={false}>{t('no')}</option>

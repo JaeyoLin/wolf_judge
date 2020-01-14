@@ -30,7 +30,7 @@ import {
   WITCH,
   HUNTER,
   KNIGHT,
-  IDIET,
+  idiot,
   VILLAGER,
 } from '../../constants/Role';
 
@@ -141,7 +141,7 @@ const Game = (props) => {
     wolfNumber,
     isKillKind,
     isUseKnight,
-    isUseIdiet,
+    isUseidiot,
     isMirror,
   } = props;
 
@@ -184,14 +184,14 @@ const Game = (props) => {
   const [isHunterDead, setIsHunterDead] = useState(false); // 獵人是否死亡
   const [isOpenLastWords, setIsOpenLastWords] = useState(false); // 遺言視窗
   const [isKnightDead, setIsKnightDead] = useState(false); // 騎士是否死亡
-  const [isIdietDead, setIsIdietDead] = useState(false); // 白癡是否死亡
+  const [isidiotDead, setIsidiotDead] = useState(false); // 白癡是否死亡
 
   const [isUseKnightSkill, setIsUseKnightSkill] = useState(false); // 騎士是否已實用技能
   const [isOpenKnight, setIsOpenKnight] = useState(false); // 開啟騎士選擇對象視窗
   const [knightSelect, setKnightSelect] = useState(null); // 騎士選擇
   const [isOpenKnightResult, setIsOpenKnightResult] = useState(false); // 騎士驗人結果
-  const [isOpenIdietResult, setIsOpenIdietResult] = useState(false); // 放逐白癡結果
-  const [isUseIdietSkill, setIsUseIdietSkill] = useState(false); // 白癡是否使用技能
+  const [isOpenidiotResult, setIsOpenidiotResult] = useState(false); // 放逐白癡結果
+  const [isUseidiotSkill, setIsUseidiotSkill] = useState(false); // 白癡是否使用技能
 
   const [isShowMessage, setIsShowMessage] = useState(false); // 是否顯示夜晚訊息
 
@@ -230,7 +230,7 @@ const Game = (props) => {
               if (isUseKnight) {
                 setStep(18);
               } else {
-                if (isUseIdiet) {
+                if (isUseidiot) {
                   setStep(20);
                 } else {
                   setStep(22);
@@ -281,7 +281,7 @@ const Game = (props) => {
             if (isUseKnight) {
               setStep(18);
             } else {
-              if (isUseIdiet) {
+              if (isUseidiot) {
                 setStep(20);
               } else {
                 setStep(22);
@@ -319,7 +319,7 @@ const Game = (props) => {
           if (isUseKnight) {
             setStep(18);
           } else {
-            if (isUseIdiet) {
+            if (isUseidiot) {
               setStep(20);
             } else {
               setStep(22);
@@ -340,7 +340,7 @@ const Game = (props) => {
         if (isUseKnight) {
           setStep(18);
         } else {
-          if (isUseIdiet) {
+          if (isUseidiot) {
             setStep(20);
           } else {
             setStep(22);
@@ -351,7 +351,7 @@ const Game = (props) => {
         setStep(19);
         break;
       case 19:
-        if (isUseIdiet) {
+        if (isUseidiot) {
           setStep(20);
         } else {
           setStep(22);
@@ -730,14 +730,14 @@ const Game = (props) => {
 
     if (isVote) {
       // 判斷被放逐的是不是白癡
-      if (selectVote.role.key === IDIET.key && isUseIdietSkill === false) {
+      if (selectVote.role.key === idiot.key && isUseidiotSkill === false) {
         setMessages([
           ...messages,
-          `${t('n_day', { day })}${t('no_is_idiet', { index: selectVote.index })}, ${t('idiet_result')}`,
+          `${t('n_day', { day })}${t('no_is_idiot', { index: selectVote.index })}, ${t('idiot_result')}`,
         ]);
 
-        setIsUseIdietSkill(true);
-        setIsOpenIdietResult(true);
+        setIsUseidiotSkill(true);
+        setIsOpenidiotResult(true);
       } else {
         const tmpDead = [
           ...dead,
@@ -830,9 +830,9 @@ const Game = (props) => {
       }
     }
     
-    if (isUseIdiet) {
-      if (dead.some(tmp => tmp.role.key === IDIET.key)) {
-        setIsIdietDead(true);
+    if (isUseidiot) {
+      if (dead.some(tmp => tmp.role.key === idiot.key)) {
+        setIsidiotDead(true);
       }
     }
 
@@ -1120,12 +1120,12 @@ const Game = (props) => {
   }
 
   /**
-   * handleCloseIdiet
+   * handleCloseidiot
    * 關閉白癡結果
    * 
    */
-  const handleCloseIdiet =() => {
-    setIsOpenIdietResult(false);
+  const handleCloseidiot =() => {
+    setIsOpenidiotResult(false);
     initSelect(true);
   }
 
@@ -1613,7 +1613,7 @@ const Game = (props) => {
                       (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
                     }
                     {
-                      (isUseIdiet) && (<li>{`${t('idiet')}: ${list.find(role => role.role.key === IDIET.key).index}`}</li>)
+                      (isUseidiot) && (<li>{`${t('idiot')}: ${list.find(role => role.role.key === idiot.key).index}`}</li>)
                     }
                     <li>{`${t('villager')}: ${getVillages()}`}</li>
                   </ul>
@@ -1650,7 +1650,7 @@ const Game = (props) => {
                   (isUseKnight) && (<li>{`${t('knight')}: ${list.find(role => role.role.key === KNIGHT.key).index}`}</li>)
                 }
                 {
-                  (isUseIdiet) && (<li>{`${t('idiet')}: ${list.find(role => role.role.key === IDIET.key).index}`}</li>)
+                  (isUseidiot) && (<li>{`${t('idiot')}: ${list.find(role => role.role.key === idiot.key).index}`}</li>)
                 }
                 <li>{`${t('villager')}: ${getVillages()}`}</li>
               </ul>
@@ -1676,7 +1676,7 @@ const Game = (props) => {
         {
           (isMirror) && (
             <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
-              <DialogTitle id="alert-dialog-title">{t('huner_shoot')}</DialogTitle>
+              <DialogTitle id="alert-dialog-title">{t('hunter_shoot')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                 { generateSelectPicker(HUNTER.key) }
@@ -1696,7 +1696,7 @@ const Game = (props) => {
           )
         }
         <div>
-          <DialogTitle id="alert-dialog-title">{t('huner_shoot')}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{t('hunter_shoot')}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
             { generateSelectPicker(HUNTER.key) }
@@ -1920,22 +1920,22 @@ const Game = (props) => {
       </Dialog>
       {/* Knight Result End */}
 
-      {/* Idiet Result Start */}
+      {/* idiot Result Start */}
       <Dialog
         fullWidth
-        open={isOpenIdietResult}
+        open={isOpenidiotResult}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
         {
           (isMirror) && (
             <div style={{ transform: 'rotate(180deg)', borderTop: '1px solid #e0e0e0' }}>
-              <DialogTitle id="alert-dialog-title">{t('idiet_result')}</DialogTitle>
+              <DialogTitle id="alert-dialog-title">{t('idiot_result')}</DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                   {
                     (selectVote !== null) ? (
-                      t('no_is_idiet', { index: selectVote.index })
+                      t('no_is_idiot', { index: selectVote.index })
                     ) : (
                       null
                     )
@@ -1943,7 +1943,7 @@ const Game = (props) => {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={() => {handleCloseIdiet()}} color="primary" variant="contained">
+                <Button onClick={() => {handleCloseidiot()}} color="primary" variant="contained">
                   { t('to_night') }
                   <CheckIcon />
                 </Button>
@@ -1952,12 +1952,12 @@ const Game = (props) => {
           )
         }
         <div>
-          <DialogTitle id="alert-dialog-title">{t('idiet_result')}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{t('idiot_result')}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               {
                 (selectVote !== null) ? (
-                  t('no_is_idiet', { index: selectVote.index })
+                  t('no_is_idiot', { index: selectVote.index })
                 ) : (
                   null
                 )
@@ -1965,14 +1965,14 @@ const Game = (props) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => {handleCloseIdiet()}} color="primary" variant="contained">
+            <Button onClick={() => {handleCloseidiot()}} color="primary" variant="contained">
               { t('to_night') }
               <CheckIcon />
             </Button>
           </DialogActions>
         </div>
       </Dialog>
-      {/* Idiet Result End */}
+      {/* idiot Result End */}
     </>
   );
 };

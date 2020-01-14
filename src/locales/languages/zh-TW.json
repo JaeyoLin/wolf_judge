@@ -11,7 +11,7 @@
   "hunter": "獵人",
   "villager": "村民",
   "knight": "騎士",
-  "idiet": "白癡",
+  "idiot": "白癡",
   "yes": "是",
   "no": "否",
   "finished": "完成",
@@ -44,7 +44,7 @@
   "game_over": "遊戲結束",
   "good_win": "正義聯盟獲勝",
   "bad_win": "邪惡陣營獲勝",
-  "huner_shoot": "獵人請發動技能",
+  "hunter_shoot": "獵人請發動技能",
   "could_shoot": "獵人是否可以開槍",
   "can_shoot": "可以",
   "cant_shoot": "不可以",
@@ -57,8 +57,8 @@
   "fight_result": "決鬥結果",
   "no_is_wolf": "{{index}} 是狼人",
   "no_is_not_wolf": "{{index}} 不是狼人, 騎士以死謝罪.",
-  "idiet_result": "放逐無效",
-  "no_is_idiet": "{{index}} 是白癡",
+  "idiot_result": "放逐無效",
+  "no_is_idiot": "{{index}} 是白癡",
   "is_show_message": "是否顯示夜晚訊息",
   "is_mirror": "彈出視窗鏡像模式"
 }
