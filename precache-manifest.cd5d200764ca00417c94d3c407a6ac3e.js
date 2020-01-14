@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2b70c670a7f239ad1a47a28ede27d4ac",
+    "revision": "4e271cb13d0f661eb344f4f93715b703",
     "url": "/wolf_judge/index.html"
   },
   {
-    "revision": "857724ceab5cf2ccb286",
+    "revision": "b4cf097dc8ed7792a728",
     "url": "/wolf_judge/static/css/main.7eac0109.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/wolf_judge/static/js/2.4e68e1bf.chunk.js"
   },
   {
-    "revision": "857724ceab5cf2ccb286",
-    "url": "/wolf_judge/static/js/main.34dc03aa.chunk.js"
+    "revision": "b4cf097dc8ed7792a728",
+    "url": "/wolf_judge/static/js/main.48ce1920.chunk.js"
   },
   {
     "revision": "d718bb2690348fd71462",
@@ -25,7 +25,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   },
   {
     "revision": "4beb90c177ba0ae7842d13b18582d7c1",
-    "url": "/wolf_judge/static/media/idiet.4beb90c1.jpg"
+    "url": "/wolf_judge/static/media/idiot.4beb90c1.jpg"
   },
   {
     "revision": "998fe9ac3100bd09061d90b9b06c3ec1",
